@@ -1,4 +1,4 @@
-package com.algoexpert.program
+package com.dynamic.program
 
 fun validStartingCity(distances: List<Int>, fuel: List<Int>, mpg: Int): Int {
     // Write your code here.

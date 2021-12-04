@@ -1,4 +1,4 @@
-package com.algoexpert.program
+package com.dynamic.program
 
 fun taskAssignment(k: Int, tasks: MutableList<Int>): List<List<Int>> {
     // Write your code here.
