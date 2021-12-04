@@ -1,4 +1,4 @@
-package com.algoexpert.program
+package com.dynamic.program
 
 import java.util.*
 
