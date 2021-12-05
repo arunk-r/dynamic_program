@@ -1,4 +1,4 @@
-package com.dynamic.program
+package com.dynamic.program.DoublyLinkedList
 
 class Node(value: Int) {
     val value = value

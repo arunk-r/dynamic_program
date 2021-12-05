@@ -1,4 +1,4 @@
-package com.dynamic.program
+package com.dynamic.program.validStartingCity
 
 fun validStartingCity(distances: List<Int>, fuel: List<Int>, mpg: Int): Int {
     // Write your code here.

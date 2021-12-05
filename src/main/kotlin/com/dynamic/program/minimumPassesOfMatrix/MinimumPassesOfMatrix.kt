@@ -1,4 +1,4 @@
-package com.dynamic.program
+package com.dynamic.program.minimumPassesOfMatrix
 
 import java.util.*
 
