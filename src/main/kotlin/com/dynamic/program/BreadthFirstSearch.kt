@@ -2,14 +2,14 @@ package com.dynamic.program
 
 import java.util.*
 
-class Node(name: String) {
+class BSFNode(name: String) {
     val name: String = name
-    val children = mutableListOf<Node>()
+    val children = mutableListOf<BSFNode>()
 
     fun breadthFirstSearch(): List<String> {
         // Write your code here.
         val list = mutableListOf<String>()
-        val queue: Queue<Node> = LinkedList()
+        val queue: Queue<BSFNode> = LinkedList()
         queue.add(this)
 
         while (queue.size != 0) {
