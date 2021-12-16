@@ -1,4 +1,4 @@
-package com.dynamic.program.taskAssignment
+package com.dynamic.program.task_assignment
 
 fun taskAssignment(k: Int, tasks: MutableList<Int>): List<List<Int>> {
     // Write your code here.

@@ -1,4 +1,4 @@
-package com.dynamic.program.threenumbersort
+package com.dynamic.program.three_number_sort
 
 fun threeNumberSort(array: MutableList<Int>, order: List<Int>): List<Int> {
     // Write your code here.

@@ -1,4 +1,4 @@
-package com.dynamic.program.cycleInGraph
+package com.dynamic.program.cycleIn_graph
 
 fun cycleInGraph(edges: List<List<Int>>): Boolean {
     // Write your code here.

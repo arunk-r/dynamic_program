@@ -1,4 +1,4 @@
-package com.dynamic.program.staircasetraversal
+package com.dynamic.program.staircase_traversal
 
 fun staircaseTraversal(height: Int, maxSteps: Int): Int {
     // Write your code here.

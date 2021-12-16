@@ -1,4 +1,4 @@
-package com.dynamic.program.breadthFirstSearch
+package com.dynamic.program.breadth_first_fearch
 
 import java.util.*
 

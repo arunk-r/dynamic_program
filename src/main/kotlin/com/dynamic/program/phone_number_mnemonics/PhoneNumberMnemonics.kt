@@ -1,4 +1,4 @@
-package com.dynamic.program.PhoneNumberMnemonics
+package com.dynamic.program.phone_number_mnemonics
 
 val DIGIT_LETTERS = mapOf(
     "0" to listOf("0"),

@@ -1,4 +1,4 @@
-package com.dynamic.program.searchinsortedmatrix
+package com.dynamic.program.search_in_sorted_matrix
 
 fun searchInSortedMatrix(matrix: List<List<Int>>, target: Int): Pair<Int, Int> {
     // Write your code here.

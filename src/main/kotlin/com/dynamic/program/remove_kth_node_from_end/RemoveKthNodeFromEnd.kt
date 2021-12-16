@@ -1,4 +1,4 @@
-package com.dynamic.program.removeKthNodeFromEnd
+package com.dynamic.program.remove_kth_node_from_end
 
 open class LinkedList1(value: Int) {
     var value = value

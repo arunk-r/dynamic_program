@@ -1,4 +1,4 @@
-package com.dynamic.program.sumOfLinkedLists
+package com.dynamic.program.sum_of_linked_lists
 
 // This is an input class. Do not edit.
 open class LinkedList(value: Int) {

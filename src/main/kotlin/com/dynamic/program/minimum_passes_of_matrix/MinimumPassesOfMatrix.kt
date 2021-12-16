@@ -1,6 +1,4 @@
-package com.dynamic.program.minimumPassesOfMatrix
-
-import java.util.*
+package com.dynamic.program.minimum_passes_of_matrix
 
 fun minimumPassesOfMatrix(matrix: MutableList<MutableList<Int>>): Int {
     // Write your code here.

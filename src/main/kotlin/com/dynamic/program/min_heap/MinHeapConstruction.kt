@@ -1,4 +1,4 @@
-package com.dynamic.program.MinHeap
+package com.dynamic.program.min_heap
 
 // Do not edit the class below except for the buildHeap,
 // siftDown, siftUp, peek, remove, and insert methods.
