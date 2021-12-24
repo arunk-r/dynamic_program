@@ -31,7 +31,37 @@ package com.dynamic.program.same_bsts
 
 fun sameBsts(arrayOne: List<Int>, arrayTwo: List<Int>): Boolean {
     // Write your code here.
-    return true
+    // size matters
+    if (arrayOne.size != arrayTwo.size) return false
+    if (arrayOne.isEmpty() && arrayTwo.isEmpty()) return true
+    // root should be same
+    if (arrayOne[0] != arrayTwo[0]) return false
+
+    //main logic
+    return sameBsts(getLeftSubArray(arrayOne), getLeftSubArray(arrayTwo))
+            && sameBsts(getRightSubArray(arrayOne), getRightSubArray(arrayTwo))
+}
+
+fun getLeftSubArray(array: List<Int>) : MutableList<Int> {
+    val result = mutableListOf<Int>()
+    for (idx in 1 until array.size) {
+        if (array[idx] < array[0]) {
+            result.add(array[idx])
+        }
+    }
+    //println(result)
+    return result
+}
+
+fun getRightSubArray(array: List<Int>) : MutableList<Int> {
+    val result = mutableListOf<Int>()
+    for (idx in 1 until array.size) {
+        if (array[idx] >= array[0]) {
+            result.add(array[idx])
+        }
+    }
+    //println(result)
+    return result
 }
 
 
