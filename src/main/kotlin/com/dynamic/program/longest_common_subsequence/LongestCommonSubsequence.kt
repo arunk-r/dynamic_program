@@ -1,5 +1,7 @@
 package com.dynamic.program.longest_common_subsequence
 
+import com.dynamic.program.longest_palindromic_substring.longestPalindromicSubstring
+
 /**
  * Write a function that takes in two strings and returns their longest common subsequence.
  *
@@ -21,5 +23,23 @@ package com.dynamic.program.longest_common_subsequence
  */
 fun longestCommonSubsequence(str1: String, str2: String): List<Char> {
     // Write your code here.
-    return listOf()
+    //construct 2d array and if row and column values are same then take diagonal value and str2[row -1]
+    //result[str2.length][str1.length] is the output value
+    val lcs = MutableList(str2.length + 1) { MutableList(str1.length + 1) { "" } }
+
+    for (i in 1..str2.length) {
+        for (j in 1..str1.length) {
+            if (str2[i - 1] == str1[j - 1]) {
+                lcs[i][j] = lcs[i - 1][j - 1] + str2[i - 1]
+            } else {
+                lcs[i][j] = if (lcs[i - 1][j].length > lcs[i][j - 1].length) lcs[i - 1][j] else lcs[i][j - 1]
+            }
+            //println(lcs)
+        }
+    }
+    return lcs[str2.length][str1.length].toList()
+}
+
+fun main() {
+    println(longestCommonSubsequence("ZXVVYZW", "XKYKZPW"))
 }
