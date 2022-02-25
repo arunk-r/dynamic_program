@@ -39,6 +39,109 @@ package com.dynamic.program.boggle_board
  *
  */
 
+data class TrieNode(
+    val children: MutableMap<Char, TrieNode?> = mutableMapOf(),
+    var word: String = ""
+)
+
+open class Trie {
+    private val endSymbol = '*'
+    var root = TrieNode()
+
+    fun add(word: String) {
+        var current = this.root
+        for (letter in word) {
+            if (!current.children.containsKey(letter)) {
+                current.children[letter] = TrieNode()
+            }
+            current = current.children[letter]!!
+        }
+        current.children[endSymbol] = null
+        current.word = word
+    }
+}
+
+fun getNeighbors(i: Int, j: Int, board: List<List<Char>>): List<Pair<Int, Int>> {
+    val neighbors = mutableListOf<Pair<Int, Int>>()
+    if (i > 0 && j > 0) {
+        neighbors.add(Pair(i - 1, j - 1))
+    }
+
+    if (i > 0 && j < board[0].size - 1) {
+        neighbors.add(Pair(i - 1, j + 1))
+    }
+
+    if (i < board.size - 1 && j < board[0].size - 1) {
+        neighbors.add(Pair(i + 1, j + 1))
+    }
+
+    if (i < board.size - 1 && j > 0) {
+        neighbors.add(Pair(i + 1, j - 1))
+    }
+
+    if (i > 0) {
+        neighbors.add(Pair(i - 1, j))
+    }
+
+    if (i < board.size - 1) {
+        neighbors.add(Pair(i + 1, j))
+    }
+
+    if (j > 0) {
+        neighbors.add(Pair(i, j - 1))
+    }
+
+    if (j < board[0].size - 1) {
+        neighbors.add(Pair(i, j + 1))
+    }
+
+    return neighbors
+}
+
+fun explore(
+    i: Int,
+    j: Int,
+    board: List<List<Char>>,
+    trieNode: TrieNode,
+    visited: List<MutableList<Boolean>>,
+    finalWords: MutableMap<String, Boolean>
+) {
+    if (i >= board.size || j >= board[0].size) return
+    if (visited[i][j]) return
+    val letter = board[i][j]
+    if (!trieNode.children.containsKey(letter)) return
+    visited[i][j] = true
+    val nextTrieNode = trieNode.children[letter]!!
+    if (nextTrieNode.children.containsKey('*')) finalWords[nextTrieNode.word] = true
+    val neighbors = getNeighbors(i, j, board)
+    //println(neighbors)
+    for (neighbor in neighbors) {
+        explore(neighbor.first, neighbor.second, board, nextTrieNode, visited, finalWords)
+    }
+    visited[i][j] = false
+}
+
+fun boggleBoard(board: List<List<Char>>, words: List<String>): List<String> {
+    val trie = Trie()
+    for (word in words) {
+        trie.add(word)
+    }
+    val finalWord = mutableMapOf<String, Boolean>()
+    val visited = MutableList(board.size) { MutableList(board[0].size) { false } }
+    //println(visited)
+    for (i in board.indices) {
+        for (j in board[i].indices) {
+            explore(i, j, board, trie.root, visited, finalWord)
+        }
+    }
+
+    return finalWord.filter { it.value }.keys.toList()
+}
+
+/**
+ * Planning for Hashbase implementation
+ */
+/*
 fun boggleBoard(board: List<List<Char>>, words: List<String>): List<String> {
     // Write your code here.
     val validStrings = mutableListOf<String>()
@@ -60,7 +163,6 @@ fun boggleBoard(board: List<List<Char>>, words: List<String>): List<String> {
     }
     return listOf()
 }
-
 fun buildEightByEightMatrix(): MutableList<MutableList<Boolean>> {
     return MutableList(8) { MutableList(8) { false } }
 }
@@ -77,6 +179,7 @@ fun buildHashMap(board: List<List<Char>>): Map<Char, List<Pair<Int, Int>>> {
     }
     return map
 }
+*/
 
 fun main() {
     println(
