@@ -1,5 +1,8 @@
 package com.dynamic.program.sort_k_sorted_array
 
+import com.dynamic.program.min_heap.MinHeap
+import kotlin.math.min
+
 /**
  * Write a function that takes in a non-negative integer k and a k-sorted array
  * of integers and returns the sorted version of the array. Your function can
@@ -26,5 +29,23 @@ package com.dynamic.program.sort_k_sorted_array
 
 fun sortKSortedArray(array: MutableList<Int>, k: Int): MutableList<Int> {
     // Write your code here.
+    val minHeap = MinHeap(mutableListOf())
+
+    val newK = min(k, array.size-1)
+    for (i in 0..newK) {
+        minHeap.insert(array[i])
+    }
+    var sortArrayIndex = 0
+    for (i in newK+1 until array.size) {
+        array[sortArrayIndex++] = minHeap.remove()
+        minHeap.insert(array[i])
+    }
+    while (!minHeap.isEmpty()) {
+        array[sortArrayIndex++] = minHeap.remove()
+    }
     return array
+}
+
+fun main() {
+    println(sortKSortedArray(mutableListOf(3, 2, 1, 5, 4, 7, 6, 5), 3))
 }

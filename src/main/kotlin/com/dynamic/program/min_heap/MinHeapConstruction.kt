@@ -47,6 +47,10 @@ open class MinHeap(array: MutableList<Int>) {
         return array
     }
 
+    fun isEmpty(): Boolean {
+        return heap.isEmpty()
+    }
+
     fun siftDown(currentIdx: Int, endIdx: Int, heap: MutableList<Int>) {
         // Write your code here.
         var newCurrentIdx = currentIdx
