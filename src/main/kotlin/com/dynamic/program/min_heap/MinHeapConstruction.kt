@@ -47,6 +47,10 @@ open class MinHeap(array: MutableList<Int>) {
         return array
     }
 
+    fun size(): Int {
+        return heap.size
+    }
+
     fun isEmpty(): Boolean {
         return heap.isEmpty()
     }
