@@ -14,23 +14,23 @@ first two queries.
 
 Write a function that returns the minimum amount of total waiting time for all
 of the queries. For example, if you're given the queries of durations
-<span>[1, 4, 5]</span>, then the total waiting time if the queries were
-executed in the order of <span>[5, 1, 4]</span> would be
-<span>(0) + (5) + (5 + 1) = 11</span>. The first query of duration
-<span>5</span> would be executed immediately, so its waiting time would be
-<span>0</span>, the second query of duration <span>1</span> would have to wait
-<span>5</span> seconds (the duration of the first query) to be executed, and
+[1, 4, 5], then the total waiting time if the queries were
+executed in the order of [5, 1, 4] would be
+(0) + (5) + (5 + 1) = 11. The first query of duration
+5 would be executed immediately, so its waiting time would be
+0, the second query of duration 1 would have to wait
+5 seconds (the duration of the first query) to be executed, and
 the last query would have to wait the duration of the first two queries before
 being executed.
-</p>
-<p>Note: you're allowed to mutate the input array.</p>
-<h3>Sample Input</h3>
-<pre><span class="CodeEditor-promptParameter">queries</span> = [3, 2, 1, 2, 6]
-</pre>
-<h3>Sample Output</h3>
-<pre>17
-</pre>
-</div>
+
+Note: you're allowed to mutate the input array.
+Sample Input
+queries = [3, 2, 1, 2, 6]
+
+Sample Output
+17
+
+
  */
 fun minimumWaitingTime(queries: MutableList<Int>): Int {
     // Write your code here.

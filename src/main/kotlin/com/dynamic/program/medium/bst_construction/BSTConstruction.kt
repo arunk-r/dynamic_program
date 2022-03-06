@@ -1,35 +1,34 @@
 package com.dynamic.program.medium.bst_construction
 
 /**
- * <div class="html">
-<p>
-Write a <span>BST</span> class for a Binary Search Tree. The class should
+ * 
+Write a BST class for a Binary Search Tree. The class should
 support:
-</p>
-<ul>
-<li>Inserting values with the <span>insert</span> method.</li>
-<li>
-Removing values with the <span>remove</span> method; this method should
+
+
+Inserting values with the insert method.
+
+Removing values with the remove method; this method should
 only remove the first instance of a given value.
-</li>
-<li>Searching for values with the <span>contains</span> method.</li>
-</ul>
-<p>
+
+Searching for values with the contains method.
+
+
 Note that you can't remove values from a single-node tree. In other words,
-calling the <span>remove</span> method on a single-node tree should simply not
+calling the remove method on a single-node tree should simply not
 do anything.
-</p>
-<p>
-Each <span>BST</span> node has an integer <span>value</span>, a
-<span>left</span> child node, and a <span>right</span> child node. A node is
-said to be a valid <span>BST</span> node if and only if it satisfies the BST
-property: its <span>value</span> is strictly greater than the values of every
-node to its left; its <span>value</span> is less than or equal to the values
+
+
+Each BST node has an integer value, a
+left child node, and a right child node. A node is
+said to be a valid BST node if and only if it satisfies the BST
+property: its value is strictly greater than the values of every
+node to its left; its value is less than or equal to the values
 of every node to its right; and its children nodes are either valid
-<span>BST</span> nodes themselves or <span>None</span> / <span>null</span>.
-</p>
-<h3>Sample Usage</h3>
-<pre><span class="CodeEditor-promptComment">// Assume the following BST has already been created:</span>
+BST nodes themselves or None / null.
+
+Sample Usage
+// Assume the following BST has already been created:
 10
 /     \
 5      15
@@ -38,8 +37,8 @@ of every node to its right; and its children nodes are either valid
 /           \
 1            14
 
-<span class="CodeEditor-promptComment">// All operations below are performed sequentially.</span>
-<span class="CodeEditor-promptParameter">insert</span>(12):   10
+// All operations below are performed sequentially.
+insert(12):   10
 /     \
 5      15
 /   \   /   \
@@ -47,7 +46,7 @@ of every node to its right; and its children nodes are either valid
 /        /  \
 1        12  14
 
-<span class="CodeEditor-promptParameter">remove</span>(10):   12
+remove(10):   12
 /     \
 5      15
 /   \   /   \
@@ -55,9 +54,9 @@ of every node to its right; and its children nodes are either valid
 /           \
 1            14
 
-<span class="CodeEditor-promptParameter">contains</span>(15): true
-</pre>
-</div>
+contains(15): true
+
+
  */
 
 // Do not edit the class below except for

@@ -9,15 +9,15 @@ Linked List should be modified in place (i.e., you shouldn't create a brand
 new list), and the modified Linked List should still have its nodes sorted
 with respect to their values.
 
-Each <span>LinkedList</span> node has an integer <span>value</span> as well as
-a <span>next</span> node pointing to the next node in the list or to
-<span>None</span> / <span>null</span> if it's the tail of the list.
+Each LinkedList node has an integer value as well as
+a next node pointing to the next node in the list or to
+None / null if it's the tail of the list.
 
-<h3>Sample Input</h3>
-<pre><span class="CodeEditor-promptParameter">linkedList</span> = 1 -&gt; 1 -&gt; 3 -&gt; 4 -&gt; 4 -&gt; 4 -&gt; 5 -&gt; 6 -&gt; 6 <span class="CodeEditor-promptComment">// the head node with value 1</span>
-</pre>
-<h3>Sample Output</h3>
-<pre>1 -&gt; 3 -&gt; 4 -&gt; 5 -&gt; 6 <span class="CodeEditor-promptComment">// the head node with value 1</span>
+Sample Input
+linkedList = 1 -&gt; 1 -&gt; 3 -&gt; 4 -&gt; 4 -&gt; 4 -&gt; 5 -&gt; 6 -&gt; 6 // the head node with value 1
+
+Sample Output
+1 -&gt; 3 -&gt; 4 -&gt; 5 -&gt; 6 // the head node with value 1
 
  */
 // This is an input class. Do not edit.

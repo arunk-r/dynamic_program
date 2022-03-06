@@ -10,7 +10,7 @@ package com.dynamic.program.hard.disk_stacking
  * Write a function that returns an array of the disks in the final stack,
  * starting with the top disk and ending with the bottom disk. Note that you
  * can't rotate disks; in other words, the integers in each subarray must
- * represent <span>[width, depth, height] at all times.
+ * represent [width, depth, height] at all times.
  *
  * You can assume that there will only be one stack with the greatest total height.
  *

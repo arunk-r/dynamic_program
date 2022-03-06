@@ -10,19 +10,19 @@ elements, where "special" arrays inside it are summed themselves and then
 multiplied by their level of depth.
 
 The depth of a "special" array is how far nested it is. For instance, the
-depth of <span>[]</span> is <span>1</span>; the depth of the inner array in
-<span>[[]]</span> is <span>2</span>; the depth of the innermost array in
-<span>[[[]]]</span> is <span>3</span>.
+depth of [] is 1; the depth of the inner array in
+[[]] is 2; the depth of the innermost array in
+[[[]]] is 3.
 
-Therefore, the product sum of <span>[x, y]</span> is <span>x + y</span>; the
-product sum of <span>[x, [y, z]]</span> is <span>x + 2 * (y + z)</span>; the
-product sum of <span>[x, [y, [z]]]</span> is <span>x + 2 * (y + 3z)</span>.
+Therefore, the product sum of [x, y] is x + y; the
+product sum of [x, [y, z]] is x + 2 * (y + z); the
+product sum of [x, [y, [z]]] is x + 2 * (y + 3z).
 
-<h3>Sample Input</h3>
-<pre><span class="CodeEditor-promptParameter">array</span> = [5, 2, [7, -1], 3, [6, [-13, 8], 4]]
-</pre>
-<h3>Sample Output</h3>
-<pre>12 <span class="CodeEditor-promptComment">// calculated as: 5 + 2 + 2 * (7 - 1) + 3 + 2 * (6 + 3 * (-13 + 8) + 4)</span>
+Sample Input
+array = [5, 2, [7, -1], 3, [6, [-13, 8], 4]]
+
+Sample Output
+12 // calculated as: 5 + 2 + 2 * (7 - 1) + 3 + 2 * (6 + 3 * (-13 + 8) + 4)
  */
 fun productSum(array: List<*>): Int {
     // Write your code here.

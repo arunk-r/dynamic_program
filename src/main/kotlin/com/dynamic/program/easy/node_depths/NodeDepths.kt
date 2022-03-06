@@ -8,12 +8,12 @@ node's depth.
 Write a function that takes in a Binary Tree and returns the sum of its nodes'
 depths.
 
-Each <span>BinaryTree</span> node has an integer <span>value</span>, a
-<span>left</span> child node, and a <span>right</span> child node. Children
-nodes can either be <span>BinaryTree</span> nodes themselves or
-<span>None</span> / <span>null</span>.
+Each BinaryTree node has an integer value, a
+left child node, and a right child node. Children
+nodes can either be BinaryTree nodes themselves or
+None / null.
 
-<h3>Sample Input</h3>
+Sample Input
 tree=           1
              /     \
             2       3
@@ -21,15 +21,15 @@ tree=           1
         4     5 6     7
       /   \
      8     9
-</pre>
-<h3>Sample Output</h3>
+
+Sample Output
 16
-<span class="CodeEditor-promptComment">// The depth of the node with value 2 is 1.</span>
-<span class="CodeEditor-promptComment">// The depth of the node with value 3 is 1.</span>
-<span class="CodeEditor-promptComment">// The depth of the node with value 4 is 2.</span>
-<span class="CodeEditor-promptComment">// The depth of the node with value 5 is 2.</span>
-<span class="CodeEditor-promptComment">// Etc..</span>
-<span class="CodeEditor-promptComment">// Summing all of these depths yields 16.</span>
+// The depth of the node with value 2 is 1.
+// The depth of the node with value 3 is 1.
+// The depth of the node with value 4 is 2.
+// The depth of the node with value 5 is 2.
+// Etc..
+// Summing all of these depths yields 16.
 
  */
 open class BinaryTree(value: Int) {

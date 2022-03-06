@@ -1,7 +1,7 @@
 package com.dynamic.program.medium.min_heap
 
 /**
- * Implement a <span>MinHeap class that supports:
+ * Implement a MinHeap class that supports:
  *
  * Building a Min Heap from an input array of integers.
  *  Inserting integers in the heap.

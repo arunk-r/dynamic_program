@@ -7,13 +7,13 @@ minimum sum of money) that you <b>cannot</b> create. The given coins can have
 any positive integer value and aren't necessarily unique (i.e., you can have
 multiple coins of the same value).
 
-For example, if you're given <span>coins = [1, 2, 5]</span>, the minimum
-amount of change that you can't create is <span>4</span>. If you're given no
-coins, the minimum amount of change that you can't create is <span>1</span>.
+For example, if you're given coins = [1, 2, 5], the minimum
+amount of change that you can't create is 4. If you're given no
+coins, the minimum amount of change that you can't create is 1.
 
-<h3>Sample Input</h3>
-<pre><span class="CodeEditor-promptParameter">coins</span> = [5, 7, 1, 1, 2, 3, 22]</pre>
-<h3>Sample Output</h3>
+Sample Input
+coins = [5, 7, 1, 1, 2, 3, 22]
+Sample Output
 20
 
  */

@@ -1,28 +1,27 @@
 package com.dynamic.program.medium
 
 /**
- * <div class="html">
-<p>
+ * 
 Write a function that takes in a non-empty array of integers and returns an
 array of the same length, where each element in the output array is equal to
 the product of every other number in the input array.
-</p>
-<p>
-In other words, the value at <span>output[i]</span> is equal to the product of
-every number in the input array other than <span>input[i]</span>.
-</p>
-<p>Note that you're expected to solve this problem without using division.</p>
-<h3>Sample Input</h3>
-<pre><span class="CodeEditor-promptParameter">array</span> = [5, 1, 4, 2]
-</pre>
-<h3>Sample Output</h3>
-<pre>[8, 40, 10, 20]
-<span class="CodeEditor-promptComment">// 8 is equal to 1 x 4 x 2</span>
-<span class="CodeEditor-promptComment">// 40 is equal to 5 x 4 x 2</span>
-<span class="CodeEditor-promptComment">// 10 is equal to 5 x 1 x 2</span>
-<span class="CodeEditor-promptComment">// 20 is equal to 5 x 1 x 4</span>
-</pre>
-</div>
+
+
+In other words, the value at output[i] is equal to the product of
+every number in the input array other than input[i].
+
+Note that you're expected to solve this problem without using division.
+Sample Input
+array = [5, 1, 4, 2]
+
+Sample Output
+[8, 40, 10, 20]
+// 8 is equal to 1 x 4 x 2
+// 40 is equal to 5 x 4 x 2
+// 10 is equal to 5 x 1 x 2
+// 20 is equal to 5 x 1 x 4
+
+
  */
 
 fun arrayOfProducts(array: List<Int>): List<Int> {
