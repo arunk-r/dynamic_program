@@ -14,10 +14,10 @@ a next node pointing to the next node in the list or to
 None / null if it's the tail of the list.
 
 Sample Input
-linkedList = 1 -&gt; 1 -&gt; 3 -&gt; 4 -&gt; 4 -&gt; 4 -&gt; 5 -&gt; 6 -&gt; 6 // the head node with value 1
+linkedList = 1 -> 1 -> 3 -> 4 -> 4 -> 4 -> 5 -> 6 -> 6 // the head node with value 1
 
 Sample Output
-1 -&gt; 3 -&gt; 4 -&gt; 5 -&gt; 6 // the head node with value 1
+1 -> 3 -> 4 -> 5 -> 6 // the head node with value 1
 
  */
 // This is an input class. Do not edit.
