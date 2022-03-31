@@ -1,8 +1,8 @@
 package com.dynamic.program.medium.powerset
 
-fun powerset(array: List<Int>): List<List<Int>> {
+fun powerset(array: List<String>): List<List<String>> {
     // Write your code here.
-    val subset = mutableListOf<MutableList<Int>>()
+    val subset = mutableListOf<MutableList<String>>()
     subset.add(mutableListOf())
     for (el in array) {
         val len = subset.size
@@ -16,5 +16,5 @@ fun powerset(array: List<Int>): List<List<Int>> {
 }
 
 fun main() {
-    println(powerset(listOf(1, 2, 3)))
+    println(powerset(listOf("a", "b", "c")))
 }
