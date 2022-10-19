@@ -20,7 +20,7 @@ Complete code in the hint.
  */
 
 fun allFactorsBruteForce(input: Int): List<Int> {
-    var output = mutableListOf<Int>()
+    val output = mutableListOf<Int>()
     for (i in 1 .. input) {
         if (input%i == 0) {
             output.add(i)
@@ -41,7 +41,7 @@ fun allFactorsBruteForce(input: Int): List<Int> {
  *  so I can divide n/2
  */
 fun allFactorsBestCase(input: Int): List<Int> {
-    var output = mutableListOf<Int>()
+    val output = mutableListOf<Int>()
     output.add(1)
     for (i in 2 .. input/2) {
         if (input%i == 0) {
@@ -53,17 +53,23 @@ fun allFactorsBestCase(input: Int): List<Int> {
 }
 
 /**
- * copied from internet. math factor
+ * math factor
  * if a<b then a < sqrt(n), b > sqrt(n)
+ * Assume n =36
+ * 1 * 36 -> we have 2 factors 1, 36
+ * 2 * 18 -> we have 2 factors 2, 18
+ * 3 * 12 -> we have 2 factors 3, 9
+ * 4 * 9  -> we have 2 factors 4, 9
  * if a = b = sqrt(n)
+ * 6 * 6 -> here we consider only 1 factor
  */
 fun allFactorsBestCase2(input: Int): List<Int> {
-    var output = mutableListOf<Int>()
+    val output = mutableListOf<Int>()
     for (i in 1 ..sqrt(input.toDouble()).toInt()) {
         if (input%i == 0) {
-            output.add(i)
-            if (i != sqrt(input.toDouble()).toInt()) {
-                output.add(input/i)
+            output.add(i) // add factor 1
+            if (i != sqrt(input.toDouble()).toInt()) { // skip if a==b
+                output.add(input/i) // add factor 2
             }
         }
     }
