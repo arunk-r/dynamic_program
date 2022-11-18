@@ -36,7 +36,9 @@ Sample Output
 
 fun mergeOverlappingIntervals(intervals: List<List<Int>>): List<List<Int>> {
     // Write your code here.
+    //nlong(n)
     var sortList = intervals.toMutableList().sortedWith( Comparator<List<Int>> { f, s -> f[0].compareTo(s[0]) })
+    //o(n)
     sortList = sortList.map() {it.toMutableList()}
     var currentList = sortList[0].toMutableList()
     val mergedList = mutableListOf<MutableList<Int>>()
@@ -53,4 +55,8 @@ fun mergeOverlappingIntervals(intervals: List<List<Int>>): List<List<Int>> {
         }
     }
     return mergedList
+}
+
+fun main() {
+    println(mergeOverlappingIntervals(listOf(listOf(1, 2), listOf(3, 5), listOf(4, 7), listOf(6, 8), listOf(9, 10))))
 }

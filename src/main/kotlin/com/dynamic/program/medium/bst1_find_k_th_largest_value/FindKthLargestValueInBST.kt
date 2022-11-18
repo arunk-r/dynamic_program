@@ -25,13 +25,13 @@ of every node to its right; and its children nodes are either valid
 BST nodes themselves or None / null.
 
 Sample Input
-tree =   15
-/     \
-5      20
-/   \   /   \
-2     5 17   22
-/   \
-1     3
+tree =              15
+                  /     \
+                 5      20
+               /   \   /   \
+              2     5 17   22
+                 /   \
+                1     3
 k = 3
 
 Sample Output
@@ -40,8 +40,7 @@ Sample Output
  */
 
 // This is an input class. Do not edit.
-open class BST(value: Int) {
-    var value = value
+open class BST(var value: Int) {
     var left: BST? = null
     var right: BST? = null
 }

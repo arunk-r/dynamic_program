@@ -75,5 +75,5 @@ open class MaxHeap(array: MutableList<Int>) {
 }
 
 fun main() {
-    println(MaxHeap(mutableListOf(48, 12, 24, 7, 8, -5)).heap)
+    println(MaxHeap(mutableListOf(48, 12, 24, 9, 8, -5)).heap)
 }
