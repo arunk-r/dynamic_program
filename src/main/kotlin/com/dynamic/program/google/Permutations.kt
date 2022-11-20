@@ -1,23 +1,58 @@
 package com.dynamic.program.google
 
+/**
+ * find all permutations for a given string.
+ *
+ * time complexity = O(n!)
+ *
+ * can I optimize more?
+ * yes, using cache
+ */
 fun permutations(value: String): List<String> {
     val result = mutableSetOf<String>()
     for (i in value.indices) {
-        result.addAll(prepareCombination(value[i].toString(), value.replace(value[i].toString(), "")))
+        val substr = when (i) {
+            0 -> {
+                value.substring(i + 1)
+            }
+
+            value.length - 1 -> {
+                value.substring(0, i)
+            }
+
+            else -> {
+                value.substring(0, i) + value.substring(i + 1)
+            }
+        }
+        prepareCombination(value[i].toString(), substr, result)
     }
     return result.toMutableList()
 }
 
-fun prepareCombination(swapChar: String, remaining: String): MutableSet<String> {
-    val result = mutableSetOf<String>()
-    result.add("$swapChar$remaining")
-    for (i in 1 until remaining.length) {
-        result.add("${remaining.substring(0, i)}$swapChar${remaining.substring(i)}")
+fun prepareCombination(permStr: String, remaining: String, output: MutableSet<String>) {
+    if (remaining.length == 1) {
+        output.add(permStr + remaining)
+    } else {
+        for (i in remaining.indices) {
+            val substr = when (i) {
+                0 -> {
+                    remaining.substring(i + 1)
+                }
+
+                remaining.length - 1 -> {
+                    remaining.substring(0, i)
+                }
+
+                else -> {
+                    remaining.substring(0, i) + remaining.substring(i + 1)
+                }
+            }
+            prepareCombination(permStr + remaining[i], substr, output)
+        }
     }
-    result.add("$remaining$swapChar")
-    return result
 }
 
 fun main() {
     println(permutations("abcd"))
+    println(permutations("tact coa"))
 }
