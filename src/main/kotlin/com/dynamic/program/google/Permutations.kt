@@ -13,7 +13,7 @@ fun permutations(value: String): List<String> {
     for (i in value.indices) {
         val substr = when (i) {
             0 -> {
-                value.substring(i + 1)
+                value.substring(1)
             }
 
             value.length - 1 -> {
