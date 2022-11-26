@@ -13,8 +13,9 @@ fun rotateMatrix(l: ArrayList<ArrayList<Int>>) {
         }
     }
 
+    println(l)
     for (i in 0 until l.size) {
-        for (j in 0 ..l.size/2) {
+        for (j in 0 until l.size/2) {
             l[i][l.size - 1 - j] = l[i][j].also { l[i][j] = l[i][l.size - 1 - j] }
         }
     }
@@ -24,4 +25,8 @@ fun main() {
     val matrix = arrayListOf(arrayListOf(9,8,7), arrayListOf(6,5,4), arrayListOf(3,2,1))
     rotateMatrix(matrix)
     println(matrix)
+
+    val matrix1 = arrayListOf(arrayListOf(9,8,7,10), arrayListOf(6,5,4,11), arrayListOf(3,2,1,12),arrayListOf(13,14,16,16))
+    rotateMatrix(matrix1)
+    println(matrix1)
 }
