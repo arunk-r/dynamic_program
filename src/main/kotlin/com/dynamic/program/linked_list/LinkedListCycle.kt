@@ -1,4 +1,4 @@
-package com.dynamic.program.linked.list
+package com.dynamic.program.linked_list
 
 /**
  *  Linked List Cycle

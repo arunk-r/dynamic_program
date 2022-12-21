@@ -1,4 +1,4 @@
-package com.dynamic.program.linked.list
+package com.dynamic.program.linked_list
 
 /**
  * Remove Duplicates from Sorted List
@@ -24,7 +24,7 @@ package com.dynamic.program.linked.list
 fun deleteDuplicates(head: Node?): Node? {
     if (head?.next == null) return head
 
-    var cur: Node? = head;
+    var cur: Node? = head
     var next: Node? = head.next
     while (next != null) {
         if (cur?.value == next.value) {

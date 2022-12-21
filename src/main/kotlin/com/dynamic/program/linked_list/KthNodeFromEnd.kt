@@ -1,4 +1,4 @@
-package com.dynamic.program.linked.list
+package com.dynamic.program.linked_list
 
 /**
  * Given the head of a linked list and an integer k, return the kth node from the end.
@@ -8,7 +8,7 @@ package com.dynamic.program.linked.list
 
 fun findNode(head: Node, k: Int): Node? {
     var slow: Node? = head
-    var fast:Node? = head
+    var fast: Node? = head
     for (i in 0 until k) {
         fast = fast?.next
     }

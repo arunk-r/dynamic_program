@@ -1,4 +1,4 @@
-package com.dynamic.program.linked.list
+package com.dynamic.program.linked_list
 
 /**
  * Given the head of a linked list with an odd number of nodes head, return the value of the node in the middle.

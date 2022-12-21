@@ -1,4 +1,4 @@
-package com.dynamic.program.linked.list
+package com.dynamic.program.linked_list
 
 fun reverse(head: Node): Node? {
     var prev: Node? = null
