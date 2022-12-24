@@ -33,7 +33,7 @@ import java.util.LinkedList
 class MovingAverage(val size: Int) {
 
     private val queue = LinkedList<Int>()
-    var total = 0
+    private var total = 0
 
     fun next(`val`: Int): Double {
         total += `val`
