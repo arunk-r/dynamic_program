@@ -27,6 +27,7 @@ fun dailyTemperatures(t: IntArray): List<Int> {
         }
         queue.push(i)
     }
+    wDays.removeLast()
     return wDays
 }
 
