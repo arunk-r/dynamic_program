@@ -1,6 +1,6 @@
-package com.dynamic.program.trees_and_graphs.dfs
+package com.dynamic.program.trees.dfs
 
-import com.dynamic.program.trees_and_graphs.TreeNode
+import com.dynamic.program.trees.TreeNode
 
 /**
  * Diameter of Binary Tree

@@ -1,6 +1,6 @@
-package com.dynamic.program.trees_and_graphs.bfs
+package com.dynamic.program.trees.bfs
 
-import com.dynamic.program.trees_and_graphs.TreeNode
+import com.dynamic.program.trees.TreeNode
 
 /**
  * Minimum Absolute Difference in BST
