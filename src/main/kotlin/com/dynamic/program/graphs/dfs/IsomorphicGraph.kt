@@ -19,18 +19,19 @@ class IsomorphicGraph {
         val graph2Tree = buildTree(graph2Roots[0], graph2)
         val graph2Encode = encodeGraph(graph2Tree)
 
-        return graph1Encode.toCharArray().sorted().joinToString("") == graph2Encode.toCharArray().sorted().joinToString("")
+        return graph1Encode == graph2Encode
     }
 
     private fun encodeGraph(root: GTreeNode): String {
         if (root.children.size == 0) return "()"
-        var encode = ""
+        val encode = mutableListOf<String>()
         root.children.forEach { node ->
             if (node != null) {
-                encode = "$encode${encodeGraph(node)}"
+                encode.add(encodeGraph(node))
             }
         }
-        return "($encode)"
+        encode.sort()
+        return "(${encode.joinToString("")})"
     }
 
     private fun buildTree(start: Int, graph: Map<Int, List<Int>>): GTreeNode {
