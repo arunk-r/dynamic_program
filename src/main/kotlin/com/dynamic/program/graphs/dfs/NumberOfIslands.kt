@@ -7,6 +7,42 @@ package com.dynamic.program.graphs.dfs
  */
 class NumberOfIslands {
     private val directions = listOf(Pair(1, 0), Pair(0, 1), Pair(-1, 0), Pair(0, -1))
+    private val visited = mutableSetOf<String>()
+
+    fun numIslands2(grid: Array<CharArray>): Int {
+        var ans = 0
+        for (row in grid.indices) {
+            for (col in grid[row].indices) {
+                val str = "$row,$col"
+                if (grid[row][col] == '1' && !visited.contains(str)) {
+                    bfs(row, col, grid)
+                    ans++
+                }
+            }
+        }
+        return ans
+    }
+
+    private fun isValid(row: Int, col: Int, grid: Array<CharArray>) =
+            row >= 0 && col >= 0 && row < grid.size && col < grid[row].size && grid[row][col] == '1'
+
+    private fun bfs(row: Int, col: Int, grid: Array<CharArray>) {
+        val str = "$row,$col"
+        if (!visited.contains(str)) {
+            visited.add(str)
+            directions.forEach { dir ->
+                val newRow = row + dir.first
+                val newCol = col + dir.second
+                val newStr = "$newRow,$newCol"
+                if (isValid(newRow, newCol, grid) && !visited.contains(newStr)) {
+                    bfs(newRow, newCol, grid)
+                }
+            }
+        }
+    }
+
+
+    /*private val directions = listOf(Pair(1, 0), Pair(0, 1), Pair(-1, 0), Pair(0, -1))
     private val seen = HashSet<String>()
 
     fun numberOfIslands(grid: List<List<Int>>): Int {
@@ -29,7 +65,7 @@ class NumberOfIslands {
         return row >= 0 && col >= 0 && row < grid.size && col < grid[0].size && grid[row][col] == 1
     }
 
-    private fun getUniqueGridLoc(row: Int, col: Int) = "$row,$col"
+    private fun getUniqueGridLoc(row: Int, col: Int) = '$row,$col'
 
     private fun dfs(row: Int, col: Int, grid: List<List<Int>>) {
         directions.forEach { pair ->
@@ -41,17 +77,54 @@ class NumberOfIslands {
                 dfs(nextRow, nextCol, grid)
             }
         }
+    }*/
+
+    fun numIslands(grid: Array<CharArray>): Int {
+        val graph = hashMapOf<Int, MutableSet<Int>>()
+        for (row in grid.indices) {
+            for (col in grid[row].indices) {
+                if (grid[row][col] == '1') {
+                    graph.putIfAbsent(row, mutableSetOf())
+                    graph.putIfAbsent(col, mutableSetOf())
+                    graph[row]?.add(col)
+                    graph[col]?.add(row)
+                }
+            }
+        }
+
+        val visited = mutableSetOf<Int>()
+        var ans = 0
+        graph.forEach { (k, v) ->
+            if (!visited.contains(k)) {
+                dfs(k, graph, visited)
+                ans++
+            }
+        }
+        return ans
+    }
+
+    fun dfs(current: Int, graph: Map<Int, Set<Int>>, visited: MutableSet<Int>) {
+        if (!visited.contains(current)) {
+            visited.add(current)
+            graph[current]?.forEach { neighbor ->
+                if (!visited.contains(neighbor)) {
+                    dfs(neighbor, graph, visited)
+                }
+            }
+        }
     }
 }
 
 fun main() {
-    val island = listOf(
-            listOf(1, 1, 0, 0, 0, 1),
-            listOf(0, 1, 0, 0, 0, 0),
-            listOf(0, 1, 1, 0, 1, 1),
-            listOf(0, 0, 0, 0, 0, 1),
-            listOf(1, 1, 1, 1, 0, 1),
-            listOf(1, 1, 1, 1, 0, 1)
-    )
-    println(NumberOfIslands().numberOfIslands(island))
+    /* val island = listOf(
+             listOf(1, 1, 0, 0, 0, 1),
+             listOf(0, 1, 0, 0, 0, 0),
+             listOf(0, 1, 1, 0, 1, 1),
+             listOf(0, 0, 0, 0, 0, 1),
+             listOf(1, 1, 1, 1, 0, 1),
+             listOf(1, 1, 1, 1, 0, 1)
+     )
+     println(NumberOfIslands().numIslands(island))*/
+
+    println(NumberOfIslands().numIslands2(arrayOf(charArrayOf('1', '0', '1', '1', '0', '1', '1'))))
 }

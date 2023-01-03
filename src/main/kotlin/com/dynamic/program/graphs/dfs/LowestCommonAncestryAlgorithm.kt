@@ -36,20 +36,17 @@ class LowestCommonAncestryAlgorithm {
         val roots = findRoot(graph)
         val root = buildTree(roots[0], graph)
         dfsLCA(root)
-        val node1Idx = last[Math.min(node1, node2)]!!
-        val node2Idx = last[Math.max(node1, node2)]!!
-        // TODO sparseTableQuery
-        val idx = nodes.subList(node1Idx, node2Idx + 1).minOf { it }
-        return nodes[idx - 1]
-    }
-
-    private fun sparseTableQuery(node1: Int, node2: Int): Int {
-        return 0
+        val leftNode = last[Math.min(node1, node2)]!!
+        val rightNode = last[Math.max(node1, node2)]!!
+        var min = Int.MAX_VALUE
+        depths.subList(leftNode, rightNode)
+                .forEach { idx -> min = Math.min(idx, min) }
+        return nodes[min]
     }
 
     private fun dfsLCA(node: GTreeNode?, depth: Int = 0) {
         if (node == null) return
-        captureVisit(node,depth)
+        captureVisit(node, depth)
         node.children.forEach { child ->
             dfsLCA(child, depth + 1)
             captureVisit(node,depth)

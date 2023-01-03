@@ -7,36 +7,32 @@ package com.dynamic.program.graphs.dfs
  * You need to swap the direction of edges so that every city can reach city 0. Return the minimum number of swaps needed.
  */
 class ReorderRoutesToMakeAllPathsLeadToTheCityZero {
-    private val seen = HashSet<Int>()
-    private val edges = HashSet<String>()
-    private val graph = hashMapOf<Int, MutableList<Int>>()
-
+    val visited = mutableSetOf<Int>()
+    val edges = mutableSetOf<String>()
+    val graph = hashMapOf<Int, MutableList<Int>>()
     fun minReorder(n: Int, connections: List<List<Int>>): Int {
-        for (i in connections.indices) {
-            graph.putIfAbsent(i, mutableListOf())
-        }
-        for (i in connections.indices) {
-            val x = connections[i][0]
-            val y = connections[i][1]
+        connections.forEach { edge ->
+            val x = edge[0]
+            val y = edge[1]
+
+            graph.putIfAbsent(x, mutableListOf<Int>())
+            graph.putIfAbsent(y, mutableListOf<Int>())
+
             graph[x]?.add(y)
             graph[y]?.add(x)
-            edges.add(getUniqueGridLoc(x, y))
+            edges.add("$x,$y")
         }
-        seen.add(n)
-        return dfs(n)
+        return dfs(0)
     }
 
-    private fun getUniqueGridLoc(row: Int, col: Int) = "$row,$col"
-
-
-    private fun dfs(node: Int): Int {
+    private fun dfs(start: Int): Int {
         var ans = 0
-        graph[node]?.forEach { neighbor ->
-            if (!seen.contains(neighbor)) {
-                if (edges.contains(getUniqueGridLoc(node, neighbor))) {
+        if (!visited.contains(start)) {
+            visited.add(start)
+            graph[start]?.forEach { neighbor ->
+                if (!visited.contains(neighbor) && edges.contains("$start,$neighbor")) {
                     ans++
                 }
-                seen.add(neighbor)
                 ans += dfs(neighbor)
             }
         }
