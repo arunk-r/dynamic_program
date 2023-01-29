@@ -15,12 +15,16 @@ fun swap(list: MutableList<Int>) {
     for (i in list.indices) {
         list[i] *= n
     }
+    println(list)
     for (i in list.indices) {
+        println("list[list[$i]/$n]/$n, list[${list[i]}/$n]/$n, list[${list[i]/n}]/$n, ${list[list[i]/n]}/$n, ${list[list[i]/n]/n}")
         list[i] += list[list[i]/n]/n
     }
+    println(list)
     for (i in list.indices) {
         list[i] %=n
     }
+    println(list)
 }
 
 fun main() {
