@@ -1,8 +1,12 @@
 package com.dynamic.program;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+
 public class Main {
 
     public static void main(String[] args) {
+        System.out.println(Instant.now().minus(10, ChronoUnit.DAYS).isBefore(Instant.now()));
         Main main = new Main();
         int result = main.leftRightSumIndex(new int[] {4, 7, 3, 8, 6});
         System.out.print(result);
