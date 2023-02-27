@@ -41,6 +41,7 @@ s consists of lowercase English letters.
  */
 class LongestSubsequenceRepeatedKTimes {
     fun longestSubsequenceRepeatedK(s: String, k: Int): String {
+        val s1 = s.reversed()
         val n = s.length
         val dp = Array(n+1){IntArray(n+1)}
         for (i in 1.. n) {
