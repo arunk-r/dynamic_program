@@ -4,11 +4,11 @@ package com.dynamic.program.binary.search.medium
  * 34. Find First and Last Position of Element in Sorted Array
 Medium
 
-company
+
 Amazon
-company
+
 Bloomberg
-company
+
 Facebook
 Given an array of integers nums sorted in non-decreasing order, find the starting and ending position of a given target value.
 

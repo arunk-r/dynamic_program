@@ -4,9 +4,9 @@ package com.dynamic.program.strings_arrays.medium
  * 38. Count and Say
 Medium
 
-company
+
 Amazon
-company
+
 Bloomberg
 Akuna Capital
 The count-and-say sequence is a sequence of digit strings defined by the recursive formula:

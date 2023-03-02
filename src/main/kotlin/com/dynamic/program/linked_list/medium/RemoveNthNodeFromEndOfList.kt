@@ -3,11 +3,11 @@ package com.dynamic.program.linked_list.medium
 /**
  * 19. Remove Nth Node From End of List
 Medium
-company
+
 Apple
-company
+
 Amazon
-company
+
 Adobe
 Given the head of a linked list, remove the nth node from the end of the list and return its head.
 

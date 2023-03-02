@@ -3,11 +3,11 @@ package com.dynamic.program.backtracking.medium
 /**
  * 22. Generate Parentheses
 Medium
-company
+
 Amazon
-company
+
 Adobe
-company
+
 Apple
 Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
 

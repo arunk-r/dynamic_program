@@ -4,11 +4,11 @@ package com.dynamic.program.strings_arrays.medium
  * 15. 3Sum
 Medium
 
-company
+
 Amazon
-company
+
 Bloomberg
-company
+
 Apple
 Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
 

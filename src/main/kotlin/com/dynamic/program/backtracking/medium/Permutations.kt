@@ -3,11 +3,11 @@ package com.dynamic.program.backtracking.medium
 /**
  * 46. Permutations
 Medium
-company
+
 Amazon
-company
+
 Microsoft
-company
+
 Google
 Given an array nums of distinct integers, return all the possible permutations. You can return the answer in any order.
 

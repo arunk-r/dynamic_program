@@ -3,11 +3,11 @@ package com.dynamic.program.two.pointers.medium
 /**
  * 340. Longest Substring with At Most K Distinct Characters
 Medium
-company
+
 Amazon
-company
+
 Google
-company
+
 Microsoft
 Given a string s and an integer k, return the length of the longest
 substring

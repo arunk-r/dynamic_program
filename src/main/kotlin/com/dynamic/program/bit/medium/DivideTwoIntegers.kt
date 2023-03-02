@@ -3,11 +3,11 @@ package com.dynamic.program.bit.medium
 /**
  * 29. Divide Two Integers
 Medium
-company
+
 Facebook
-company
+
 Amazon
-company
+
 Google
 Given two integers dividend and divisor, divide two integers without using multiplication, division, and mod operator.
 
