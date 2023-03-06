@@ -39,6 +39,41 @@ package com.dynamic.program.graphs
  */
 class OpenTheLock {
     fun openLock(deadends: Array<String>, target: String): Int {
+        val ends = deadends.toSet()
+        val initials = "0000"
+        val q = ArrayDeque<String>()
+        val distance = hashMapOf<String, Int>()
+        if (ends.contains(initials)) return -1
+        distance[initials] = 0
+        q.addLast(initials)
+
+        while (q.isNotEmpty()) {
+            val curKey = q.removeFirst()
+            if (curKey == target) return distance[curKey]!!
+            for(i in curKey.indices) {
+                for (nextCode in listOf(getNext(i, curKey), getPrev(i,curKey))) {
+                    if (!ends.contains(nextCode) && !distance.containsKey(nextCode)) {
+                        q.addLast(nextCode)
+                        distance[nextCode] = distance[curKey]!!+1
+                    }
+                }
+            }
+        }
+        return -1
+    }
+
+    private fun getNext(i: Int, str: String): String {
+        val c = str.toCharArray()
+        c[i] = if (c[i] == '9') '0' else c[i]+1
+        return c.joinToString("")
+    }
+    private fun getPrev(i: Int, str: String): String {
+        val c = str.toCharArray()
+        c[i] = if (c[i] == '0') '9' else c[i]-1
+        return c.joinToString("")
+    }
+
+    fun openLock1(deadends: Array<String>, target: String): Int {
         val seen = mutableSetOf<String>()
         deadends.forEach{ d ->
             seen.add(d)
