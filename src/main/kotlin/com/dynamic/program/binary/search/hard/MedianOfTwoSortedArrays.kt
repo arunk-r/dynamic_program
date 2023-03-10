@@ -33,6 +33,46 @@ nums2.length == n
  */
 class MedianOfTwoSortedArrays {
     fun findMedianSortedArrays(nums1: IntArray, nums2: IntArray): Double {
+        val m = nums1.size
+        val n = nums2.size
+        val new = IntArray(m+n)
+        var n1Idx = 0
+        var n2Idx = 0
+        var idx = 0
+        while (n1Idx < m && n2Idx < n) {
+            if (nums1[n1Idx] <= nums2[n2Idx]) {
+                new[idx] = nums1[n1Idx]
+                n1Idx++
+            } else {
+                new[idx] = nums2[n2Idx]
+                n2Idx++
+            }
+            idx++
+        }
+        while(n1Idx < m) {
+            new[idx] = nums1[n1Idx]
+            n1Idx++
+            idx++
+        }
+        while(n2Idx < n) {
+            new[idx] = nums2[n2Idx]
+            n2Idx++
+            idx++
+        }
+        val midIndex = (new.size - 1) / 2
+
+        return if (new.isEmpty()) {
+            -1.0
+        } else if (new.size == 1) {
+            new[0].toDouble()
+        } else if (new.size % 2 == 0) {
+            (new[midIndex] + new[midIndex + 1]).toDouble() / 2.0
+        } else {
+            new[midIndex].toDouble()
+        }
+    }
+
+    fun findMedianSortedArrays2(nums1: IntArray, nums2: IntArray): Double {
         return median(combine(nums1, nums2))
     }
 
