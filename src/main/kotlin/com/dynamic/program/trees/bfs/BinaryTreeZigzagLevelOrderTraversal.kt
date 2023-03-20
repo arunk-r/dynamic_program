@@ -4,7 +4,13 @@ import com.dynamic.program.trees.TreeNode
 import java.util.*
 
 /**
- * Binary Tree Zigzag Level Order Traversal
+ * 103. Binary Tree Zigzag Level Order Traversal
+Medium
+
+Bloomberg
+Amazon
+Microsoft
+
  * Given the root of a binary tree, return the zigzag level order traversal of its nodes' values.
  * (i.e., from left to right, then right to left for the next level and alternate between).
  *
@@ -25,39 +31,36 @@ import java.util.*
  * -100 <= Node.val <= 100
  */
 
-fun zigzagLevelOrder(root: TreeNode?): List<List<Int>> {
-    if (root == null) return emptyList<List<Int>>()
+class BinaryTreeZigzagLevelOrderTraversal  {
+    fun zigzagLevelOrder(root: TreeNode?): List<List<Int>> {
+        val q = ArrayDeque<TreeNode>()
+        root?.let{q.addLast(it)}
+        val result = mutableListOf<MutableList<Int>>()
+        var right = false
+        while(q.isNotEmpty()) {
+            val s = q.size
+            var lst = mutableListOf<Int>()
+            for (i in 0 until s) {
+                val n = q.removeFirst()
+                lst.add(n.`val`)
+                n.left?.let{q.addLast(it)}
+                n.right?.let{q.addLast(it)}
+            }
 
-    val q = LinkedList<TreeNode?>()
-    q.offer(root)
-    val list = mutableListOf<List<Int>>()
-    var isRight = false
-
-    while (q.isNotEmpty()) {
-        val size = q.size
-        val sL = MutableList(size) { 0 }
-        var idx = size
-        for (i in 0 until size) {
-            val node = q.remove()
-            if (isRight) {
-                node?.let { sL[--idx] = it.`val` }
+            if(right) {
+                result.add(lst.reversed().toMutableList())
             } else {
-                node?.let { sL[i] = it.`val` }
+                result.add(lst)
             }
-            if (node?.left != null) {
-                q.offer(node.left)
-            }
-            if (node?.right != null) {
-                q.offer(node.right)
-            }
+
+            right = !right
         }
-        list.add(sL)
-        isRight = !isRight
+
+        return result
     }
-    return list
 }
 
 fun main() {
     val head = TreeNode(3, TreeNode(9), TreeNode(20, TreeNode(15), TreeNode(7)))
-    println(zigzagLevelOrder(head))
+    println(BinaryTreeZigzagLevelOrderTraversal().zigzagLevelOrder(head))
 }

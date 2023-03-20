@@ -5,6 +5,21 @@ package com.dynamic.program.dp
  */
 class BestTimeToBuyAndSellStockWithTransactionFee {
     fun maxProfit(prices: IntArray, fee: Int): Int {
+        val m = prices.size
+        val buy = IntArray(m+2)
+        val sell = IntArray(m+2)
+        buy[1] = -prices[0]
+
+        for(i in 2 until m+2) {
+            val p = prices[i-2]
+            buy[i] = maxOf(buy[i-1], sell[i-1] - p)
+            sell[i] = maxOf(sell[i-1], buy[i-1] + p - fee)
+        }
+
+        return maxOf(buy[m+1], sell[m+1])
+    }
+
+    fun maxProfit2(prices: IntArray, fee: Int): Int {
         var cash = 0
         var hold = -prices[0]
 
