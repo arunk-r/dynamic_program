@@ -47,7 +47,72 @@ s and t consist of uppercase and lowercase English letters.
 Follow up: Could you find an algorithm that runs in O(m + n) time?
  */
 class MinimumWindowSubstring {
-    fun minWindow(s: String, t: String): String? {
+    data class Track(var min: Int = 0, var cur: Int = 0)
+
+    fun minWindow(s: String, t: String): String {
+        if (t.length > s.length) return ""
+        if (t == s) return ""
+        if (t.length == 1) {
+            if (s.contains(t)) return t
+            else return ""
+        }
+        var ans = ""
+        var left = 0
+        var right = 0
+        var min = Int.MAX_VALUE
+
+        val map = hashMapOf<Char, Track>()
+
+        for (c in t) {
+            map.putIfAbsent(c, Track())
+            map[c]!!.min += 1
+        }
+
+        while (right < s.length) {
+            var ss = s.substring(left, right + 1)
+            val c = s[right]
+            val valid = validateSubString(c, map, true)
+            if (!valid) {
+                right++
+            } else {
+                if (ss.length < min) {
+                    ans = ss
+                    min = ss.length
+                }
+                while (validateSubString(s[left++], map, false)) {
+                    ss = s.substring(left, right + 1)
+                    if (ss.length < min) {
+                        ans = ss
+                        min = ss.length
+                    }
+                }
+                right++
+            }
+        }
+        return ans
+    }
+
+    private fun validateSubString(c: Char, map: HashMap<Char, Track>, add: Boolean): Boolean {
+        if (add && !map.containsKey(c)) return false
+        if (!add && !map.containsKey(c)) return true
+        val d = map[c]!!
+        if (add) {
+            d.cur += 1
+            map.forEach { (_, v) ->
+                if (v.min > v.cur) return false
+            }
+            return true
+        } else {
+            d.cur -= 1
+            map.forEach { (_, v) ->
+                if (v.min > v.cur) return false
+            }
+            return true
+        }
+    }
+
+
+    fun minWindow2(s: String, t: String): String? {
         if (s.isEmpty() || t.isEmpty()) {
             return ""
         }
@@ -106,7 +171,7 @@ class MinimumWindowSubstring {
         }
         return if (ans[0] == -1) "" else s.substring(ans[1], ans[2] + 1)
     }
-    
+
     fun minWindow1(s: String, t: String): String {
         if (s == t) return s
         else if (s.length < t.length) return ""
@@ -145,5 +210,6 @@ class MinimumWindowSubstring {
 }
 
 fun main() {
+    println(MinimumWindowSubstring().minWindow("babb", "baba"))
     println(MinimumWindowSubstring().minWindow("ADOBECODEBANC", "ABC"))
 }

@@ -27,50 +27,77 @@ package com.dynamic.program.hashing
  * s consists of English letters, digits, symbols and spaces.
  */
 
-fun lengthOfLongestSubstring(s: String): Int {
-    var ans = 0
-    val set = hashSetOf<String>()
-    var substr = StringBuilder()
-    s.forEach { c ->
-        if (set.contains(c.toString())) {
-            substr = StringBuilder()
-            substr.append(c)
-        } else {
-            set.add(c.toString())
-            substr.append(c)
-            val str = substr.toString()
-            set.add(str)
-            ans = Math.max(ans, str.length)
-        }
-    }
-    return ans
-}
+class LongestSubstringWithoutRepeatingCharacters {
 
-// sliding window
-fun lengthOfLongestSubstring_SlidingWindow(s: String): Int {
-    var ans = 0
-    var left = 0
-    val charArray = IntArray(128)
-    for (right in s.indices) {
-        val c = s[right].toInt()
-        charArray[c]++
-        while (charArray[c] > 1) {
-            val leftChar = s[left].code
-            charArray[leftChar]--
-            left++
+    fun lengthOfLongestSubstring(s: String): Int {
+        val map = hashMapOf<Char, Int>()
+
+        for (c in s) map[c] = 0
+        var d = Int.MIN_VALUE
+
+        var end = 0
+        var begin = 0
+
+        while (end < s.length) {
+            map[s[end]] = map[s[end]]!! + 1
+
+            while (map[s[end]]!! > 1) {
+                map[s[begin]] = map[s[begin]]!! - 1
+                begin++
+            }
+            end++
+
+            d = maxOf(d, end - begin)
         }
-        ans = Math.max(ans, right - left + 1)
+        return d
     }
-    return ans
+
+    fun lengthOfLongestSubstring1(s: String): Int {
+        var ans = 0
+        val set = hashSetOf<String>()
+        var substr = StringBuilder()
+        s.forEach { c ->
+            if (set.contains(c.toString())) {
+                substr = StringBuilder()
+                substr.append(c)
+            } else {
+                set.add(c.toString())
+                substr.append(c)
+                val str = substr.toString()
+                set.add(str)
+                ans = Math.max(ans, str.length)
+            }
+        }
+        return ans
+    }
+
+    // sliding window
+    fun lengthOfLongestSubstring_SlidingWindow(s: String): Int {
+        var ans = 0
+        var left = 0
+        val charArray = IntArray(128)
+        for (right in s.indices) {
+            val c = s[right].toInt()
+            charArray[c]++
+            while (charArray[c] > 1) {
+                val leftChar = s[left].code
+                charArray[leftChar]--
+                left++
+            }
+            ans = Math.max(ans, right - left + 1)
+        }
+        return ans
+    }
 }
 
 fun main() {
-    println(lengthOfLongestSubstring("abcabcbb"))
-    println(lengthOfLongestSubstring("dvdf"))
-    println(lengthOfLongestSubstring("bbbbb"))
-    println(lengthOfLongestSubstring("pwwkew"))
+    val l = LongestSubstringWithoutRepeatingCharacters()
+    println(l.lengthOfLongestSubstring("abcabcbb"))
+    println(l.lengthOfLongestSubstring("dvdf"))
+    println(l.lengthOfLongestSubstring("bbbbb"))
+    println(l.lengthOfLongestSubstring("pwwkew"))
 
-    println(lengthOfLongestSubstring_SlidingWindow("dvdf"))
-    println(lengthOfLongestSubstring_SlidingWindow("bbbbb"))
-    println(lengthOfLongestSubstring_SlidingWindow("pwwkew"))
+    println(l.lengthOfLongestSubstring_SlidingWindow("dvdf"))
+    println(l.lengthOfLongestSubstring_SlidingWindow("bbbbb"))
+    println(l.lengthOfLongestSubstring_SlidingWindow("pwwkew"))
 }

@@ -50,7 +50,35 @@ nums2.length == n
 Follow up: Can you come up with an algorithm that runs in O(m + n) time?
  */
 class MergeSortedArray {
+    /**
+     * Intuition is
+     *  1. keep 3 pointers.
+     *  2. traverse from backwards
+     *  3. let 'p' be a replacing pointer
+     *  4. let 'p1' be a long array pointer
+     *  5. let 'p2' be a small or merging array pointer
+     *  6. on loop make sure p is >= 0
+     *  7. if p2 reached less than zero means then small array values are already merged hence break the loop
+     *
+     */
     fun merge(nums1: IntArray, m: Int, nums2: IntArray, n: Int): Unit {
+
+        var p = nums1.size - 1
+        var p1 = m-1
+        var p2 = n-1
+
+        while (p >= 0) {
+            if (p2 < 0) return
+            if (p1 >= 0 && nums1[p1] > nums2[p2]) {
+                nums1[p--] = nums1[p1--]
+            } else {
+                nums1[p--] = nums2[p2--]
+            }
+        }
+
+    }
+
+    fun merge1(nums1: IntArray, m: Int, nums2: IntArray, n: Int): Unit {
         var i = 0
         var j = 0
         val d = IntArray(m+n+1)

@@ -30,6 +30,27 @@ intervals[i].length == 2
  */
 class MergeIntervals {
     fun merge(intervals: Array<IntArray>): Array<IntArray> {
+        intervals.sortWith(kotlin.Comparator{x,y -> if(x[0] == y[0]) x[1]-y[1] else x[0]-y[0]})
+        intervals.sortWith(kotlin.Comparator{x, y -> x[0]-y[0]})
+        val op = mutableListOf<IntArray>()
+        op.add(intervals[0])
+
+        for(i in 1 until intervals.size) {
+            val tp = op[op.size - 1]
+            val cur = intervals[i]
+
+            if(cur[0] in tp[0] .. tp[1]) {
+                op.removeAt(op.size-1)
+                op.add(intArrayOf(tp[0], maxOf(cur[1], tp[1])))
+            } else {
+                op.add(cur)
+            }
+        }
+
+        return op.toTypedArray()
+    }
+
+    fun merge1(intervals: Array<IntArray>): Array<IntArray> {
         intervals.sortWith(kotlin.Comparator{x, y -> x[0]-y[0]})
         val result = mutableListOf<IntArray>()
         var rIdx = 0
