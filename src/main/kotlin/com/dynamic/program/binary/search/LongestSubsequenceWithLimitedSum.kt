@@ -35,6 +35,36 @@ import java.util.Arrays
 class LongestSubsequenceWithLimitedSum {
     fun answerQueries(nums: IntArray, queries: IntArray): IntArray {
         Arrays.sort(nums)
+        for(i in 1 until nums.size) {
+            nums[i] += nums[i-1]
+        }
+
+        val op = IntArray(queries.size)
+
+        for(i in queries.indices) {
+            op[i] = 1 + binarySearch(nums, queries[i])
+        }
+
+        return op
+    }
+
+    private fun binarySearch(nums: IntArray, target: Int): Int {
+        var l = 0
+        var r = nums.size-1
+
+        while(l < r) {
+            val mid = l + (r - l) / 2
+            if(nums[mid] == target) return mid
+            else if (nums[mid] > target) r = mid-1
+            else l = mid+1
+        }
+
+        if(nums[l] > target) l--
+        return l
+    }
+
+    fun answerQueries1(nums: IntArray, queries: IntArray): IntArray {
+        Arrays.sort(nums)
         val result = IntArray(queries.size)
         for(i in 1 until nums.size) {
             nums[i] += nums[i-1]
