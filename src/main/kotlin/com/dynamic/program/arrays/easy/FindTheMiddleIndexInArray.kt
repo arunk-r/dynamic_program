@@ -48,17 +48,17 @@ class FindTheMiddleIndexInArray {
         val prefix = IntArray(s)
         prefix[0] = nums[0]
         val suffix = IntArray(s)
-        suffix[s-1] = nums[s-1]
+        suffix[s - 1] = nums[s - 1]
 
-        for(i in 1 until s) {
-            prefix[i] = prefix[i-1] + nums[i]
+        for (i in 1 until s) {
+            prefix[i] = prefix[i - 1] + nums[i]
         }
 
-        for(i in s-2 downTo 0) {
-            suffix[i] = suffix[i+1]+nums[i]
+        for (i in s - 2 downTo 0) {
+            suffix[i] = suffix[i + 1] + nums[i]
         }
 
-        for(i in nums.indices) {
+        for (i in nums.indices) {
             val l = i - 1
             val r = i + 1
 
