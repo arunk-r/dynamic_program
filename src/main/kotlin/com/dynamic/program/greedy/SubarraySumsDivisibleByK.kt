@@ -24,6 +24,31 @@ package com.dynamic.program.greedy
  * 2 <= k <= 10^4
  */
 class SubarraySumsDivisibleByK {
+    fun subarraysDivByK(nums: IntArray, k: Int): Int {
+        val ps = hashMapOf<Int, Int>()
+        var sum = 0
+        for(i in nums.indices) {
+            sum += nums[i]
+
+            var mod = sum % k
+            if (mod < 0) {
+                mod += k
+            }
+            ps.putIfAbsent(mod, 0)
+            ps[mod] = ps[mod]!! + 1
+        }
+
+        var ans = 0
+        ps.forEach { (k, v) ->
+            ans += (v * (v - 1)) / 2
+            if (k == 0) {
+                ans += v
+            }
+        }
+
+        return ans
+    }
+
     fun subarraysDivByK_1(nums: IntArray, k: Int): Int {
         var cnt = 0
         val lst = nums.toMutableList()
@@ -40,7 +65,7 @@ class SubarraySumsDivisibleByK {
         return cnt
     }
 
-    fun subarraysDivByK(nums: IntArray, k: Int): Int {
+    fun subarraysDivByK2(nums: IntArray, k: Int): Int {
 // Use the HashMap to record the frequency of all the prefix sum remainders.
         // Use the HashMap to record the frequency of all the prefix sum remainders.
         val map = HashMap<Int, Int>()
