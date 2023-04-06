@@ -47,9 +47,64 @@ s and t consist of uppercase and lowercase English letters.
 Follow up: Could you find an algorithm that runs in O(m + n) time?
  */
 class MinimumWindowSubstring {
-    data class Track(var min: Int = 0, var cur: Int = 0)
+
 
     fun minWindow(s: String, t: String): String {
+        val tMap = hashMapOf<Char, Int>()
+
+        for(c in t) {
+            tMap[c] = tMap.getOrDefault(c,0)+1
+        }
+
+        var l = 0
+        val sMap = hashMapOf<Char, Int>()
+
+        var min = Int.MAX_VALUE
+        var result = ""
+        for (r in s.indices) {
+            val c = s[r]
+
+            if (tMap.containsKey(c)) {
+                sMap[c] = sMap.getOrDefault(c,0)+1
+                while (isStringValid(sMap, tMap)) {
+                    val size = r - l + 1
+                    val p = getResult(l, r, min, result, size, s)
+                    min = p.first
+                    result = p.second
+                    val lc = s[l++]
+                    if (sMap.containsKey(lc)) {
+                        sMap[lc] = sMap[lc]!!-1
+                    }
+                }
+            }
+        }
+
+        return result
+    }
+
+    private fun getResult(st: Int, e: Int, min: Int, result: String, size: Int, s: String): Pair<Int, String> {
+        return if (size < min) {
+            val sub = s.substring(st, minOf(e+1, s.length))
+            Pair(size, sub)
+        } else {
+            Pair(min, result)
+        }
+    }
+
+    private fun isStringValid(sMap: HashMap<Char, Int>, tMap: HashMap<Char, Int>): Boolean {
+
+        tMap.forEach{ (k, v) ->
+            val r = sMap[k]
+            if ( r == null) return false
+            else if ( r < v) return false
+        }
+
+        return true
+    }
+
+    data class Track(var min: Int = 0, var cur: Int = 0)
+
+    fun minWindow3(s: String, t: String): String {
         if (t.length > s.length) return ""
         if (t == s) return ""
         if (t.length == 1) {
@@ -210,6 +265,7 @@ class MinimumWindowSubstring {
 }
 
 fun main() {
+    println(MinimumWindowSubstring().minWindow("a", "a"))
     println(MinimumWindowSubstring().minWindow("babb", "baba"))
     println(MinimumWindowSubstring().minWindow("ADOBECODEBANC", "ABC"))
 }
