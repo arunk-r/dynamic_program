@@ -30,7 +30,58 @@ Constraints:
 -109 <= nums[i] <= 109
  */
 class LongestConsecutiveSequence {
+    // using union find solution
     fun longestConsecutive(nums: IntArray): Int {
+        val parent = IntArray(nums.size)
+        for(i in parent.indices) {
+            parent[i] = i
+        }
+
+        val map = hashMapOf<Int, Int>()
+        for(i in nums.indices) {
+            val n = nums[i]
+            if(map[n] == null) {
+                map[n] = i
+            }
+        }
+
+        for(n in nums) {
+            if (map[n-1] != null && find(parent, map[n]!!) != find(parent, map[n-1]!!)) {
+                union(parent, map[n]!!, map[n-1]!!)
+            }
+            if (map[n+1] != null && find(parent, map[n]!!) != find(parent, map[n+1]!!)) {
+                union(parent, map[n]!!, map[n+1]!!)
+            }
+        }
+
+        val count = IntArray(nums.size)
+        var ans = 0
+        map.forEach{ (k,v) ->
+            val p = find(parent, v)
+            count[p]++
+            if (count[p] > ans) {
+                ans = count[p]
+            }
+        }
+        return ans
+    }
+
+    private fun union(parent: IntArray, v1: Int, v2: Int) {
+        val parentV1 = find(parent, v1)
+        val parentV2 = find(parent, v2)
+        parent[parentV2] = parentV1
+    }
+
+    private fun find(parent: IntArray, v: Int): Int {
+        var c = v
+        while(c != parent[c]) {
+            parent[c] = parent[parent[c]]
+            c = parent[c]
+        }
+        return c
+    }
+
+    fun longestConsecutive1(nums: IntArray): Int {
         if (nums.isEmpty()) return 0
         val set = hashSetOf<Int>()
         for(n in nums) { set.add(n)}
