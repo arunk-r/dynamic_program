@@ -30,6 +30,27 @@ Constraints:
 class GenerateParentheses {
     fun generateParenthesis(n: Int): List<String> {
         val result = mutableListOf<String>()
+        backtrack(n,n, result, "")
+        return result
+    }
+
+    fun backtrack(open: Int, close: Int, result: MutableList<String>, current: String) {
+        if (open == 0 && close == 0) {
+            result.add(current)
+            return
+        }
+        if (open > 0) {
+            backtrack(open-1, close, result, "$current(")
+        }
+
+        if(open < close) {
+            backtrack(open, close-1, result, "$current)")
+        }
+
+    }
+
+    fun generateParenthesis2(n: Int): List<String> {
+        val result = mutableListOf<String>()
         backtracking(result, "", 0, 0, n)
         return result
     }
