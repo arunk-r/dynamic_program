@@ -36,6 +36,42 @@ All the integers of nums are unique.
 class Permutations {
     fun permute(nums: IntArray): List<List<Int>> {
         var result = mutableListOf<MutableList<Int>>()
+        for(n in nums) {
+            result = permutations(n ,result)
+        }
+
+        return result
+    }
+
+    private fun permutations(n: Int, result: MutableList<MutableList<Int>>): MutableList<MutableList<Int>> {
+        if (result.isEmpty()) {
+            return mutableListOf(mutableListOf(n))
+        } else {
+            val r = mutableListOf<MutableList<Int>>()
+            for(l in result) {
+                for(i in l.indices) {
+                    val new = mutableListOf<Int>()
+
+                    new.addAll(l.subList(0,i))
+                    new.add(n)
+                    new.addAll(l.subList(i,l.size))
+
+                    r.add(new)
+                }
+
+                val new = mutableListOf<Int>()
+
+                new.addAll(l)
+                new.add(n)
+
+                r.add(new)
+            }
+            return r
+        }
+    }
+
+    fun permute1(nums: IntArray): List<List<Int>> {
+        var result = mutableListOf<MutableList<Int>>()
         for(i in nums.indices) {
             result = backtrack(nums[i], i+1, result)
         }
