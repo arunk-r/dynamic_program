@@ -28,6 +28,57 @@ Output: [[15,13,2,5],[14,3,4,1],[12,6,8,9],[16,7,10,11]]
  */
 class RotateImage {
     fun rotate(matrix: Array<IntArray>): Unit {
+        val m = matrix.size
+        val n = matrix[0].size
+
+        for (r in 0 until m) {
+            for (c in r until n) {
+                val t = matrix[r][c]
+                matrix[r][c] = matrix[c][r]
+                matrix[c][r] = t
+            }
+        }
+
+        for (r in 0 until m) {
+            var lc = n-1
+            for (c in 0 .. n/2) {
+                val t = matrix[r][c]
+                matrix[r][c] = matrix[r][lc]
+                matrix[r][lc] = t
+                lc--
+            }
+        }
+        var t=0
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    fun rotate1(matrix: Array<IntArray>): Unit {
         val n = matrix.size
         for (r in matrix.indices){
             for (c in r until n ){
