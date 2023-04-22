@@ -31,6 +31,35 @@ n == matrix[i].length
  */
 class SpiralMatrix {
     fun spiralOrder(matrix: Array<IntArray>): List<Int> {
+        var m = matrix.size
+        var n = matrix[0].size
+
+        var dir = 1
+
+        var i = 0
+        var j = -1
+
+        val op = mutableListOf<Int>()
+        while (m * n > 0) {
+            for (k in 0 until n) {
+                j += dir
+                op.add(matrix[i][j])
+            }
+            n -= 1
+
+            for (k in 1 until m) {
+                i += dir
+                op.add(matrix[i][j])
+            }
+            m -= 1
+
+            dir *= -1
+        }
+
+        return op
+    }
+
+    fun spiralOrder1(matrix: Array<IntArray>): List<Int> {
         val result = mutableListOf<Int>()
         val rows = matrix.size
         val cols = matrix[0].size

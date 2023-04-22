@@ -32,7 +32,7 @@ nums2.length == n
 -106 <= nums1[i], nums2[i] <= 106
  */
 class MedianOfTwoSortedArrays {
-    fun findMedianSortedArrays(nums1: IntArray, nums2: IntArray): Double {
+    fun findMedianSortedArrays3(nums1: IntArray, nums2: IntArray): Double {
         val m = nums1.size
         val n = nums2.size
         val new = IntArray(m+n)
@@ -116,23 +116,25 @@ class MedianOfTwoSortedArrays {
         }
     }
 
-    fun findMedianSortedArrays1(nums1: IntArray, nums2: IntArray): Double {
+    fun findMedianSortedArrays(nums1: IntArray, nums2: IntArray): Double {
         val (sm, lg) = if (nums1.size <= nums2.size) Pair(nums1, nums2) else Pair(nums2, nums1) //find small list and large list
         val m = sm.size // small list size
         val n = lg.size // large list size
+        val total = m + n
+        val half = total / 2
         var l = 0
         var r = m
 
 
         while (l <= r) {
-            val midSm = (l + r) / 2
-            val midLg = (m + n + 1) / 2 - midSm
+            val midSm = l + (r - l) / 2
+            val midLg = half - midSm - 1
 
-            val smLeft = if (midSm == 0) Int.MIN_VALUE else sm[midSm - 1]
-            val smRight = if (midSm == m) Int.MAX_VALUE else sm[midSm]
+            val smLeft = if (midSm < 0) Int.MIN_VALUE else sm[midSm]
+            val smRight = if (midSm+1 >= m) Int.MAX_VALUE else sm[midSm+1]
 
-            val lgLeft = if (midLg == 0) Int.MIN_VALUE else lg[midLg - 1]
-            val lgRight = if (midLg == n) Int.MAX_VALUE else lg[midLg]
+            val lgLeft = if (midLg < 0) Int.MIN_VALUE else lg[midLg]
+            val lgRight = if (midLg+1 >= n) Int.MAX_VALUE else lg[midLg+1]
 
             if (smLeft <= lgRight && lgLeft <= smRight) {
                 if ((m+n) % 2 == 0) {
