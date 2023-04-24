@@ -50,7 +50,66 @@ The sum of lists[i].length will not exceed 104.
  */
 class MergeKSortedLists {
     data class ListNode(var `val`: Int, var next: ListNode? = null)
+    
     fun mergeKLists(lists: Array<ListNode?>): ListNode? {
+        val q = PriorityQueue<ListNode>{x,y -> x.`val` - y.`val`}
+        for (list in lists) {
+            var n = list
+            while(n != null) {
+                q.add(ListNode(n.`val`))
+                n = n.next
+            }
+        }
+
+        val head = q.remove()
+        var n = head
+
+        while (q.isNotEmpty()) {
+            val v = q.remove()
+            n?.next = v
+            n = v
+        }
+
+        return head
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    fun mergeKLists1(lists: Array<ListNode?>): ListNode? {
         val q = PriorityQueue<Pair<Int, ListNode?>>{x, y -> x.first - y.first}
         for(l in lists) {
             var node: ListNode? = l
