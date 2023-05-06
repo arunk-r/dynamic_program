@@ -37,6 +37,27 @@ Constraints:
  */
 class FirstMissingPositive {
     fun firstMissingPositive(nums: IntArray): Int {
+        val size  = nums.size
+        for (i in nums.indices) {
+            var v = nums[i]
+            if (v < size) {
+                while (v != i && v < size) {
+                    val t = nums[v]
+                    nums[v] = v
+                    nums[i] = t
+                    v = t
+                }
+            }
+        }
+
+        for (i in nums.indices) {
+            if (i != nums[i]) return i
+        }
+
+        return size
+    }
+
+    fun firstMissingPositive1(nums: IntArray): Int {
         for(i in nums.indices) {
             if (nums[i] < 0) {
                 nums[i] = 0
@@ -101,6 +122,8 @@ class FirstMissingPositive {
 }
 
 fun main() {
+    println(FirstMissingPositive().firstMissingPositive(intArrayOf(74,2,1,4,3,0)))
+    println(FirstMissingPositive().firstMissingPositive(intArrayOf(0,11,12,13,14,15,16)))
     println(FirstMissingPositive().firstMissingPositive(intArrayOf(1,2,0)))
     println(FirstMissingPositive().firstMissingPositive(intArrayOf(1)))
 }
