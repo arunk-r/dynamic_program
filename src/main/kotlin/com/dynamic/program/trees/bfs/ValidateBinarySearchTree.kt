@@ -41,6 +41,25 @@ The number of nodes in the tree is in the range [1, 104].
  */
 class ValidateBinarySearchTree {
     fun isValidBST(root: TreeNode?): Boolean {
+        val lst = mutableListOf<Int>()
+        return inorder(root, lst)
+    }
+
+    private fun inorder(node: TreeNode?, lst: MutableList<Int>): Boolean {
+        if (node == null) return true
+        val l = inorder(node.left, lst)
+        val v = node.`val`
+        if (lst.isNotEmpty()){
+            if (lst[lst.size - 1] >= v){
+                return false
+            }
+        }
+        lst.add(v)
+        val r = inorder(node.right, lst)
+        return l && r
+    }
+
+    fun isValidBST1(root: TreeNode?): Boolean {
         return valid(root, Long.MIN_VALUE, Long.MAX_VALUE)
     }
 
