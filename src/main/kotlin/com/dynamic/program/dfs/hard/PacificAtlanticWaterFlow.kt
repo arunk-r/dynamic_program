@@ -48,9 +48,55 @@ Explanation: The water can flow from the only cell to the Pacific and Atlantic o
  */
 class PacificAtlanticWaterFlow {
 
-    val dir = listOf(Pair(0,1), Pair(1,0), Pair(0,-1), Pair(-1,0))
+    val dir = listOf(Pair(0, 1), Pair(1, 0), Pair(0, -1), Pair(-1, 0))
 
     fun pacificAtlantic(matrix: Array<IntArray>): List<List<Int?>?>? {
+        val result = mutableListOf<List<Int>>()
+        val pOcean = ArrayDeque<Pair<Int, Int>>()
+        val aOcean = ArrayDeque<Pair<Int, Int>>()
+        for (r in matrix.indices) {
+            pOcean.addLast(Pair(r, 0))
+            aOcean.addLast(Pair(r, matrix[0].size - 1))
+        }
+        for (c in matrix[0].indices) {
+            pOcean.addLast(Pair(0, c))
+            aOcean.addLast(Pair(matrix.size - 1, c))
+        }
+        val pResult = bfs(matrix, pOcean)
+        val aResult = bfs(matrix, aOcean)
+
+        for (r in matrix.indices) {
+            for (c in matrix[r].indices) {
+                if (aResult[r][c] == pResult[r][c]) {
+                    result.add(listOf(r, c))
+                }
+            }
+        }
+        return result
+    }
+
+    fun bfs(matrix: Array<IntArray>, q: ArrayDeque<Pair<Int, Int>>): Array<BooleanArray> {
+        val result = Array(matrix.size) { BooleanArray(matrix[0].size) }
+        while (q.isNotEmpty()) {
+            val (r, c) = q.removeFirst()
+            result[r][c] = true
+            dir.forEach { (r1, c1) ->
+                val nr = r + r1
+                val nc = c + c1
+                if (valid(nr, nc, matrix, result)) {
+                    if (matrix[nr][nc] >= matrix[r][c]) {
+                        q.addLast(Pair(nr, nc))
+                    }
+                }
+            }
+        }
+        return result
+    }
+
+    fun valid(r: Int, c: Int, matrix: Array<IntArray>, seen: Array<BooleanArray>): Boolean =
+        (r in matrix.indices && c in matrix[r].indices && !seen[r][c])
+
+    fun pacificAtlantic2(matrix: Array<IntArray>): List<List<Int?>?>? {
         // Check if input is empty
         if (matrix.isEmpty() || matrix[0].isEmpty()) {
             return ArrayList()
@@ -61,8 +107,8 @@ class PacificAtlanticWaterFlow {
         val numCols = matrix[0].size
 
         // Setup each queue with cells adjacent to their respective ocean
-        val pacificQueue =  ArrayDeque<IntArray>()
-        val atlanticQueue =  ArrayDeque<IntArray>()
+        val pacificQueue = ArrayDeque<IntArray>()
+        val atlanticQueue = ArrayDeque<IntArray>()
         for (i in 0 until numRows) {
             pacificQueue.add(intArrayOf(i, 0))
             atlanticQueue.add(intArrayOf(i, numCols - 1))
@@ -73,8 +119,8 @@ class PacificAtlanticWaterFlow {
         }
 
         // Perform a BFS for each ocean to find all cells accessible by each ocean
-        val pacificReachable = bfs(pacificQueue, matrix)
-        val atlanticReachable = bfs(atlanticQueue, matrix)
+        val pacificReachable = bfs2(pacificQueue, matrix)
+        val atlanticReachable = bfs2(atlanticQueue, matrix)
 
         // Find all cells that can reach both oceans
         val commonCells = mutableListOf<List<Int>>()
@@ -88,7 +134,7 @@ class PacificAtlanticWaterFlow {
         return commonCells
     }
 
-    private fun bfs(queue: ArrayDeque<IntArray>, landHeights: Array<IntArray>): Array<BooleanArray> {
+    private fun bfs2(queue: ArrayDeque<IntArray>, landHeights: Array<IntArray>): Array<BooleanArray> {
         // Save initial values to parameters
         val numRows = landHeights.size
         val numCols = landHeights[0].size
@@ -133,7 +179,7 @@ class PacificAtlanticWaterFlow {
         val atlanticSet = hashSetOf<Pair<Int, Int>>()
 
         for (i in 0 until m) {
-            var p =Pair(0, i)
+            var p = Pair(0, i)
             pacific.add(p)
             pacificSet.add(p)
             p = Pair(n - 1, i)
@@ -174,7 +220,7 @@ class PacificAtlanticWaterFlow {
                 val nc = c + c1
                 val p = Pair(nr, nc)
 
-                if (valid(nr, nc, heights, h) ) {
+                if (valid(nr, nc, heights, h)) {
                     if (pacificSet.contains(p)) {
                         result.add(listOf(p.first, p.second))
                     }
@@ -185,15 +231,25 @@ class PacificAtlanticWaterFlow {
                 }
             }
         }
-        if (result.isEmpty()) return listOf(listOf(0,0))
+        if (result.isEmpty()) return listOf(listOf(0, 0))
         return result.toList()
     }
 
-    fun valid(r: Int, c: Int, heights: Array<IntArray>, h: Int): Boolean
-    = (r in heights.indices && c in heights[r].indices && heights[r][c] >= h)
+    fun valid(r: Int, c: Int, heights: Array<IntArray>, h: Int): Boolean =
+        (r in heights.indices && c in heights[r].indices && heights[r][c] >= h)
 }
 
 fun main() {
-    println(PacificAtlanticWaterFlow().pacificAtlantic(arrayOf(intArrayOf(1, 2, 2, 3, 5), intArrayOf(3, 2, 3, 4, 4), intArrayOf(2, 4, 5, 3, 1), intArrayOf(6, 7, 1, 4, 5), intArrayOf(5, 1, 1, 2, 4))))
+    println(
+        PacificAtlanticWaterFlow().pacificAtlantic(
+            arrayOf(
+                intArrayOf(1, 2, 2, 3, 5),
+                intArrayOf(3, 2, 3, 4, 4),
+                intArrayOf(2, 4, 5, 3, 1),
+                intArrayOf(6, 7, 1, 4, 5),
+                intArrayOf(5, 1, 1, 2, 4)
+            )
+        )
+    )
     println(PacificAtlanticWaterFlow().pacificAtlantic(arrayOf(intArrayOf(1))))
 }
