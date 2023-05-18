@@ -1,5 +1,7 @@
 package com.dynamic.program.union.find.medium
 
+import java.util.Stack
+
 /**
  * 261. Graph Valid Tree
 Medium
@@ -38,6 +40,31 @@ There are no self-loops or repeated edges.
  */
 class GraphValidTree {
     fun validTree(n: Int, edges: Array<IntArray>): Boolean {
+        val map = hashMapOf<Int, MutableList<Int>>()
+        for((x,y) in edges) {
+            map.putIfAbsent(x, mutableListOf())
+            map.putIfAbsent(y, mutableListOf())
+            map[x]?.add(y)
+            map[y]?.add(x)
+        }
+        val seen = hashSetOf<Int>()
+        val stack = Stack<Int>()
+        seen.add(0)
+        stack.add(0)
+        while (stack.isNotEmpty()) {
+            val node = stack.pop()
+            map[node]?.forEach { nei ->
+                if (!seen.contains(nei)) {
+                    seen.add(nei)
+                    stack.add(nei)
+                }
+            }
+        }
+        return stack.isEmpty()
+    }
+
+
+    fun validTree1(n: Int, edges: Array<IntArray>): Boolean {
         if (edges.size != n - 1) return false
         val arr = IntArray(n)
 
@@ -72,4 +99,8 @@ class GraphValidTree {
 
         return c
     }
+}
+
+fun main() {
+    println(GraphValidTree().validTree(5, arrayOf(intArrayOf(0,1), intArrayOf(0,2), intArrayOf(0,3), intArrayOf(1,4))))
 }
