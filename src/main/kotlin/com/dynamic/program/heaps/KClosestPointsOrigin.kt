@@ -31,6 +31,17 @@ import java.util.*
  */
 class KClosestPointsOrigin {
     fun kClosest(points: Array<IntArray>, k: Int): Array<IntArray> {
+        val p = PriorityQueue<IntArray>{x,y -> dist(x)-dist(y)}
+        p.addAll(points)
+        val result = Array(k){IntArray(2)}
+        for(i in 0 until k) {
+            if(p.isNotEmpty()) {
+                result[i] = p.remove()
+            }
+        }
+        return result
+    }
+    fun kClosest1(points: Array<IntArray>, k: Int): Array<IntArray> {
         val N = points.size
         val dists = IntArray(N)
         for (i in 0 until N) dists[i] = dist(points[i])

@@ -1,5 +1,6 @@
 package com.dynamic.program.graphs
 
+
 /**
  * Evaluate Division
  * You are given an array of variable pairs equations and an array of real numbers values, where equations\[i] = [Ai, Bi]
@@ -38,66 +39,72 @@ package com.dynamic.program.graphs
  * Ai, Bi, Cj, Dj consist of lower case English letters and digits.
  *
  */
-class EvaluateDivision {
-    fun calcEquation(equations: List<List<String>>, values: DoubleArray, queries: List<List<String>>): DoubleArray {
-        val graph = hashMapOf<String, MutableList<Pair<String, Double>>>()
-        val weights = hashMapOf<String, Double>()
 
+internal class EvaluateDivision {
+    fun calcEquation(
+        equations: List<List<String>>, values: DoubleArray,
+        queries: List<List<String>>
+    ): DoubleArray {
+        val graph = HashMap<String, HashMap<String, Double>>()
+
+        // Step 1). build the graph from the equations
         for (i in equations.indices) {
-            val x = equations[i][0]
-            val y = equations[i][1]
-            weights["$x$y"] = values[i]
-            weights["$y$x"] = 1.0 / values[i]
-            graph.putIfAbsent(x, mutableListOf())
-            graph.putIfAbsent(y, mutableListOf())
-            graph[x]?.add(Pair(y, values[i]))
-            graph[y]?.add(Pair(x, 1 / values[i]))
+            val dividend = equations[i][0]
+            val divisor = equations[i][1]
+
+            val quotient = values[i]
+
+            graph.putIfAbsent(dividend, hashMapOf())
+            graph.putIfAbsent(divisor, hashMapOf())
+            graph[dividend]!![divisor] = quotient
+            graph[divisor]!![dividend] = 1 / quotient
         }
 
-        val result = DoubleArray(queries.size) { -1.0 }
-
+        // Step 2). Evaluate each query via bactracking (DFS)
+        // by verifying if there exists a path from dividend to divisor
+        val results = DoubleArray(queries.size)
         for (i in queries.indices) {
-            val x = queries[i][0]
-            val y = queries[i][1]
-            val key = "$x$y"
-
-            if (weights.containsKey(key)) {
-                result[i] = weights[key] ?: -1.0
+            val query = queries[i]
+            val dividend = query[0]
+            val divisor = query[1]
+            if (!graph.containsKey(dividend) || !graph.containsKey(divisor)) {
+                results[i] = -1.0
+            } else if (dividend === divisor) {
+                results[i] = 1.0
             } else {
-                if (graph.containsKey(x)) {
-                    if (x == y) {
-                        result[i] = 1.0
-                    } else {
-                        dfs(1.0, x, x, y, graph, weights, mutableSetOf())
-                        if (weights.containsKey(key)) {
-                            result[i] = weights[key] ?: -1.0
-                        }
-                    }
-                }
+                val visited = HashSet<String>()
+                results[i] = backtrackEvaluate(graph, dividend, divisor, 1.0, visited)
             }
-
         }
-        return result
+        return results
     }
 
-    fun dfs(
-        weight: Double,
-        start: String,
-        cur: String,
-        end: String,
-        graph: HashMap<String, MutableList<Pair<String, Double>>>,
-        weights: HashMap<String, Double>,
-        seen: MutableSet<String>
-    ) {
-        if(!seen.contains(cur)) {
-            seen.add(cur)
-            if (cur == end) {
-                weights["$start$end"] = weight
-            }
-            graph[cur]?.forEach { n ->
-                dfs(weight * n.second, start, n.first, end, graph, weights, seen)
+    private fun backtrackEvaluate(
+        graph: HashMap<String, HashMap<String, Double>>,
+        currNode: String,
+        targetNode: String,
+        accProduct: Double,
+        visited: MutableSet<String>
+    ): Double {
+
+        // mark the visit
+        visited.add(currNode)
+        var ret = -1.0
+        val neighbors: Map<String, Double> = graph[currNode]!!
+        if (neighbors.containsKey(targetNode)) ret = accProduct * neighbors[targetNode]!! else {
+            for ((nextNode, value) in neighbors) {
+                if (visited.contains(nextNode)) continue
+                ret = backtrackEvaluate(
+                    graph, nextNode, targetNode,
+                    accProduct * value, visited
+                )
+                if (ret != -1.0) break
             }
         }
+
+        // unmark the visit, for the next backtracking
+        visited.remove(currNode)
+        return ret
     }
 }
 

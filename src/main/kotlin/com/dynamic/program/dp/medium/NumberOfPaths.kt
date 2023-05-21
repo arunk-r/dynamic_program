@@ -34,13 +34,32 @@ Constraints:
 class NumberOfPaths {
     fun numOfPathsToDest(n: Int): Int {
         val dp = Array(n + 1) { IntArray(n + 1) }
-
-        for (r in 1..n) {
-            for (c in 1..n) {
-                dp[r][c] = minOf(dp[r - 1][c], dp[r][c - 1]) + 1
+        for (c in 2..n) {
+            dp[1][c] = 1
+        }
+        for (r in 2..n) {
+            for (c in r..n) {
+                dp[r][c] = dp[r - 1][c] + dp[r][c - 1]
             }
         }
         return dp[n][n]
+    }
+
+    fun numOfPathsToDest1(n: Int): Int {
+        val dp = Array(n) { IntArray(n) { -1 } }
+        numOfPathsToDest(n - 1, n - 1, dp)
+        return dp[n - 1][n - 1]
+    }
+
+    private fun numOfPathsToDest(r: Int, c: Int, mem: Array<IntArray>): Int {
+        return if (r < 0 || c < 0) 0
+        else if (mem[r][c] != -1) mem[r][c]
+        else if (r == 0 && c == 0) 1
+        else if (r < c) 0
+        else {
+            mem[r][c] = numOfPathsToDest(r - 1, c, mem) + numOfPathsToDest(r, c - 1, mem)
+            mem[r][c]
+        }
     }
 }
 
