@@ -34,7 +34,44 @@ package com.dynamic.program.dp
  * All the strings of wordDict are unique.
  */
 class WordBreak {
+    data class Trie(val c: Char, var end: Boolean = false, val map: HashMap<Char, Trie> = hashMapOf())
+    val root = Trie(' ')
     fun wordBreak(s: String, wordDict: List<String>): Boolean {
+        for(word in wordDict) {
+            var node = root
+            for(c in word) {
+                val n = node.map[c]
+                if(n == null) {
+                    val nn = Trie(c)
+                    node.map[c] = nn
+                    node = nn
+                } else {
+                    node = n
+                }
+            }
+            node.end = true
+        }
+
+        return find(0, s, root)
+    }
+
+    fun find(i: Int, s: String, node: Trie): Boolean {
+        if (i == s.length-1 && node.end) return true
+        else if (i == s.length - 1) return false
+
+        if (node.end) {
+            return find(i, s, root)
+        }
+
+        val n = node.map[s[i]]
+        if (n != null) {
+            return find(i+1, s, n)
+        } else {
+            return false
+        }
+    }
+
+    fun wordBreak1(s: String, wordDict: List<String>): Boolean {
         val set = hashSetOf<String>()
         set.addAll(wordDict)
         val dp = BooleanArray(s.length + 1)

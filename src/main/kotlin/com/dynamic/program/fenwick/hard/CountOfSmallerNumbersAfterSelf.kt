@@ -1,5 +1,7 @@
 package com.dynamic.program.fenwick.hard
 
+import java.util.PriorityQueue
+
 /**
  * 315. Count of Smaller Numbers After Self
 Hard
@@ -36,7 +38,11 @@ Constraints:
 -104 <= nums[i] <= 104
  */
 class CountOfSmallerNumbersAfterSelf {
+    data class Trie(val c: Char, var end: Boolean = false, val map: HashMap<Char, Trie> = hashMapOf())
+    val root = Trie(' ')
+
     fun countSmaller(nums: IntArray): List<Int> {
+        val p = PriorityQueue<Int>()
         var minVal = 10001
         var maxVal = -10001
         for (a in nums) {

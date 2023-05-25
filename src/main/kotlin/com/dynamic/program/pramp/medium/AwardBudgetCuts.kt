@@ -1,4 +1,4 @@
-package com.dynamic.program.strings_arrays.hard
+package com.dynamic.program.pramp.medium
 
 /**
  * Award Budget Cuts

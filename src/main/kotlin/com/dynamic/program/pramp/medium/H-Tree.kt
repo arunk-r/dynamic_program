@@ -1,4 +1,4 @@
-package com.dynamic.program.pramp
+package com.dynamic.program.pramp.medium
 
 /**
  *  |     |
