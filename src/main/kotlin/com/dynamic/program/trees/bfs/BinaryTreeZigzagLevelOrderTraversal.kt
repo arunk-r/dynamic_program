@@ -33,6 +33,36 @@ Microsoft
 
 class BinaryTreeZigzagLevelOrderTraversal  {
     fun zigzagLevelOrder(root: TreeNode?): List<List<Int>> {
+        val result = mutableListOf<MutableList<Int>>()
+        if (root == null) return result
+        var q = ArrayDeque<TreeNode>()
+        q.addLast(root)
+
+        var dir = 1
+        while(q.isNotEmpty()) {
+            val size = q.size
+            val r = MutableList<Int>(size){0}
+            val q1 = ArrayDeque<TreeNode>()
+            var idx = size-1
+            for(i in 0 until size) {
+                val n = q.removeFirst()
+                if (dir == 1) {
+                    r[i] = (n.`val`)
+                } else {
+                    r[idx--] = (n.`val`)
+                }
+                n.left?.let{q1.addLast(it)}
+                n.right?.let{q1.addLast(it)}
+            }
+            q = q1
+            result.add(r)
+            dir *= -1
+        }
+
+        return result
+    }
+
+    fun zigzagLevelOrder1(root: TreeNode?): List<List<Int>> {
         val q = ArrayDeque<TreeNode>()
         root?.let{q.addLast(it)}
         val result = mutableListOf<MutableList<Int>>()
@@ -61,6 +91,6 @@ class BinaryTreeZigzagLevelOrderTraversal  {
 }
 
 fun main() {
-    val head = TreeNode(3, TreeNode(9), TreeNode(20, TreeNode(15), TreeNode(7)))
+    val head = TreeNode(1, TreeNode(2, TreeNode(4)), TreeNode(3, null, TreeNode(5)))
     println(BinaryTreeZigzagLevelOrderTraversal().zigzagLevelOrder(head))
 }

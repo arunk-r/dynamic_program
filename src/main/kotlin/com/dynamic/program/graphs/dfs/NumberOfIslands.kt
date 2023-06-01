@@ -6,6 +6,44 @@ package com.dynamic.program.graphs.dfs
  * An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically.
  */
 class NumberOfIslands {
+    fun numIslands3(grid: Array<CharArray>): Int {
+        var count = 0
+        val seen = hashSetOf<Pair<Int, Int>>()
+        for(r in grid.indices) {
+            for (c in grid[r].indices) {
+                if ( grid[r][c] == '1' && !seen.contains(Pair(r,c))) {
+                    bfs(r,c,grid,seen)
+                    count++
+                }
+            }
+        }
+        return count
+    }
+
+    val dir = listOf(Pair(1,0), Pair(0,1), Pair(-1,0), Pair(0,-1))
+
+    fun bfs(r: Int, c: Int, grid: Array<CharArray>, seen: HashSet<Pair<Int, Int>>) {
+        val q = ArrayDeque<Pair<Int, Int>>()
+        q.add(Pair(r,c))
+        val seen = hashSetOf<Pair<Int, Int>>()
+        seen.add(Pair(r,c))
+        while(q.isNotEmpty()) {
+            for(i in q.size-1 downTo 0) {
+                val (r, c) = q.removeFirst()
+                dir.forEach { (r1, c1) ->
+                    val nr = r + r1
+                    val nc = c + c1
+                    if (nr in grid.indices && nc in grid[nr].indices && grid[nr][nc] == '1' && !seen.contains(Pair(nr,nc))) {
+                        val p = Pair(nr,nc)
+                        seen.add(p)
+                        q.addLast(p)
+                    }
+                }
+            }
+        }
+        println(seen)
+    }
+
     private val directions = listOf(Pair(1, 0), Pair(0, 1), Pair(-1, 0), Pair(0, -1))
     private val visited = mutableSetOf<String>()
 

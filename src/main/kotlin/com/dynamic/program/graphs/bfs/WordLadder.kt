@@ -31,42 +31,76 @@ package com.dynamic.program.graphs.bfs
  */
 class WordLadder {
     fun ladderLength(beginWord: String, endWord: String, wordList: List<String>): Int {
-        val nWordLst = HashSet(wordList)
-        val q = ArrayDeque<Pair<String, Int>>()
-        q.addLast(Pair(beginWord,1))
+        val wordSet = hashSetOf<String>()
+        wordSet.addAll(wordList)
+        if (!wordSet.contains(endWord)) return 0
         val seen = hashSetOf<String>()
         seen.add(beginWord)
-        while (q.isNotEmpty()) {
-            val cur = q.removeFirst()
-            val lst = wordList(cur.first, nWordLst)
-            lst.forEach { n ->
-                if (!seen.contains(n)) {
-                    seen.add(n)
-                    q.addLast(Pair(n, cur.second+1))
-                    if (n == endWord) return cur.second+1
+
+        val q = ArrayDeque<Pair<String, Int>>()
+        q.addLast(Pair(beginWord, 1))
+        val map = hashMapOf<String, MutableList<String>>()
+        while(q.isNotEmpty()) {
+            for (i in q.size-1 downTo 0) {
+                val (word, cnt) = q.removeFirst()
+                map.putIfAbsent(word, mutableListOf())
+                val combinations = getList(word, wordSet, seen)
+                combinations.forEach { w ->
+                    map[word]!!.add(w)
+                    map.putIfAbsent(w, mutableListOf())
+                    map[w]!!.add(word)
+                    q.addLast(Pair(w, cnt + 1))
+                    seen.add(w)
+                    if (w == endWord){
+                        seen.remove(w)
+                    }
                 }
             }
         }
+        println(map)
+        val cur = mutableListOf<String>()
+        val seen1 = hashSetOf<String>()
+        cur.add(endWord)
+        seen1.add(endWord)
+        dfs(endWord, beginWord, map, cur, seen1)
+        println(result)
         return 0
     }
-
-    private fun wordList(w: String, wordList: Set<String>): List<String> {
-        val lst = mutableListOf<String>()
-        for (i in w.indices) {
-            for (nChr in w[i] + 1..'z') {
-                val v = "${w.substring(0, i)}$nChr${w.substring(i + 1)}"
-                if (wordList.contains(v)) {
-                    lst.add(v)
-                }
-            }
-            for (nChr in 'a' until w[i]) {
-                val v = "${w.substring(0, i)}$nChr${w.substring(i + 1)}"
-                if (wordList.contains(v)) {
-                    lst.add(v)
-                }
+    val result = mutableListOf<MutableList<String>>()
+    private fun dfs(begin: String, end: String, map: HashMap<String, MutableList<String>>, cur: MutableList<String>, seen: HashSet<String>) {
+        if (begin == end) {
+            result.add(cur.toMutableList().reversed().toMutableList())
+            return
+        }
+        map[begin]?.forEach {word ->
+            if (!seen.contains(word)) {
+                seen.add(word)
+                cur.add(word)
+                dfs(word, end, map, cur, seen)
+                seen.remove(word)
+                cur.removeAt(cur.size -1)
             }
         }
-        return lst
+    }
+
+    private fun getList(word: String, set: HashSet<String>, seen: HashSet<String>): List<String> {
+        val result = mutableListOf<String>()
+        for(i in word.indices) {
+            for(c in word[i]+1 .. 'z') {
+                addToList(word, i, c, set, seen, result)
+            }
+            for(c in 'a' until word[i]) {
+                addToList(word, i, c, set, seen, result)
+            }
+        }
+        return result
+    }
+
+    private fun addToList(word: String, idx: Int, c: Char, set: HashSet<String>, seen: HashSet<String>, result: MutableList<String>) {
+        val s = "${word.substring(0,idx)}$c${word.substring(idx+1,word.length)}"
+        if (set.contains(s) && !seen.contains(s)) {
+            result.add(s)
+        }
     }
 }
 
