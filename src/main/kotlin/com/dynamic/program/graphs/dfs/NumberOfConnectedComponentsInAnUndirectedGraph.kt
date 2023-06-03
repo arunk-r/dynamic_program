@@ -26,6 +26,77 @@ package com.dynamic.program.graphs.dfs
  */
 class NumberOfConnectedComponentsInAnUndirectedGraph {
     fun countComponents(n: Int, edges: Array<IntArray>): Int {
+        val arr = IntArray(n) {i -> i}
+        val rank = IntArray(n) {1}
+        var count = n
+        for( (x, y) in edges) {
+            count -= union(x, y, arr, rank)
+        }
+        println(arr.toList())
+        println(rank.toList())
+        return count
+    }
+
+    fun union(x: Int, y: Int, arr: IntArray, rank: IntArray): Int {
+        val px = find(x, arr)
+        val py = find(y, arr)
+        if(px == py) return 0
+        if(rank[px] < rank[py]) {
+            arr[px] = py
+        } else if(rank[px] > rank[py]) {
+            arr[py] = px
+        } else {
+            arr[py] = px
+            rank[py]++
+        }
+        return 1
+    }
+
+    fun find(x: Int, arr: IntArray): Int {
+        var c = x
+        while(c != arr[c]) {
+            arr[c] = arr[arr[c]]
+            c = arr[c]
+        }
+
+        return c
+    }
+
+    fun countComponents1(n: Int, edges: Array<IntArray>): Int {
+        val graph = hashMapOf<Int, MutableList<Int>>()
+        for( (p, c) in edges) {
+            graph.putIfAbsent(p, mutableListOf())
+            graph.putIfAbsent(c, mutableListOf())
+
+            graph[p]?.add(c)
+            graph[c]?.add(p)
+        }
+
+        val seen = hashSetOf<Int>()
+
+        var count = 0
+        val q = ArrayDeque<Int>()
+        for(i in 0 until n) {
+            if(!seen.contains(i)) {
+                q.addLast(i)
+                seen.add(i)
+                while(q.isNotEmpty()) {
+                    val cur = q.removeFirst()
+                    graph[cur]?.forEach { nei ->
+                        if(!seen.contains(nei)) {
+                            q.addLast(nei)
+                            seen.add(nei)
+                        }
+                    }
+                }
+                count++
+            }
+        }
+
+        return count
+    }
+
+    fun countComponents2(n: Int, edges: Array<IntArray>): Int {
         val graph = hashMapOf<Int, MutableList<Int>>()
         edges.forEach{ edge ->
             val x = edge[0]
