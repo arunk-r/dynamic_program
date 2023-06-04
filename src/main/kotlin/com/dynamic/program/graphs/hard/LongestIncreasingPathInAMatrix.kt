@@ -70,5 +70,6 @@ class LongestIncreasingPathInAMatrix {
 
 fun main() {
     //println(LongestIncreasingPathInAMatrix().longestIncreasingPath(arrayOf(intArrayOf(0), intArrayOf(1), intArrayOf(5), intArrayOf(5))))
-    println(LongestIncreasingPathInAMatrix().longestIncreasingPath(arrayOf(intArrayOf(9, 9, 4), intArrayOf(6, 6, 8), intArrayOf(2, 1, 1))))
+    //println(LongestIncreasingPathInAMatrix().longestIncreasingPath(arrayOf(intArrayOf(9, 9, 4), intArrayOf(6, 6, 8), intArrayOf(2, 1, 1))))
+    println(LongestIncreasingPathInAMatrix().longestIncreasingPath(arrayOf(intArrayOf(3, 4, 5), intArrayOf(3, 2, 6), intArrayOf(2, 2, 1))))
 }
