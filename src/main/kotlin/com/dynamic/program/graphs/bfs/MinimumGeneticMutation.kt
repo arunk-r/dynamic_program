@@ -28,6 +28,36 @@ package com.dynamic.program.graphs.bfs
  */
 class MinimumGeneticMutation {
     fun minMutation(startGene: String, endGene: String, bank: Array<String>): Int {
+        val q = ArrayDeque<String>()
+        val set = hashSetOf<String>()
+        val seen = hashSetOf<String>()
+        q.addLast(startGene)
+        seen.add(startGene)
+        set.addAll(bank)
+
+        var count = 0
+        val choices = listOf('A', 'C', 'G', 'T')
+        while(q.isNotEmpty()) {
+            for(i in q.size downTo 1) {
+                val cur = q.removeFirst()
+                if (endGene == cur) return count
+                for(i in cur.indices) {
+                    choices.forEach{ c ->
+                        val newSeq = "${cur.substring(0,i)}$c${cur.substring(i+1)}"
+                        if (set.contains(newSeq) && !seen.contains(newSeq)) {
+                            q.addLast(newSeq)
+                            seen.add(newSeq)
+                        }
+                    }
+                }
+            }
+            count++
+        }
+
+        return -1
+    }
+
+    fun minMutation1(startGene: String, endGene: String, bank: Array<String>): Int {
         var cnt = 0
         if(bank.isEmpty() || !bank.contains(endGene)) return -1
 

@@ -1,5 +1,7 @@
 package com.dynamic.program.backtracking.hard
 
+import java.util.Stack
+
 
 /**
  * 301. Remove Invalid Parentheses
@@ -37,6 +39,56 @@ There will be at most 20 parentheses in s.
 class RemoveInvalidParentheses {
 
     fun removeInvalidParentheses(s: String): List<String> {
+        val q = ArrayDeque<String>()
+        val seen = hashSetOf<String>()
+        q.addLast(s)
+        seen.add(s)
+
+        val result = mutableListOf<String>()
+        var found = false
+
+        while(q.isNotEmpty()) {
+            val str = q.removeFirst()
+            if (validStr(str)) {
+                result.add(str)
+                found = true
+            }
+
+            if (found) continue
+
+            for(i in str.indices) {
+                if (str[i] != '(' && str[i] != ')') continue
+                val newStr = "${str.substring(0,i)}${str.substring(i+1,str.length)}"
+                if (!seen.contains(newStr)) {
+                    q.addLast(newStr)
+                    seen.add(newStr)
+                }
+            }
+
+        }
+        return result
+    }
+
+    fun validStr(s: String): Boolean {
+        val stk = Stack<Char>()
+        for(c in s) {
+            if (c != '(' && c != ')') continue
+            if (c == ')') {
+                if (stk.isNotEmpty() && stk.peek() =='(') {
+                    stk.pop()
+                } else {
+                    return false
+                }
+            } else {
+                stk.push(c)
+            }
+        }
+
+        return stk.isEmpty()
+    }
+
+
+    fun removeInvalidParentheses4(s: String): List<String> {
         val ans = mutableListOf<String>()
         remove(s, ans, 0, 0, charArrayOf('(', ')'))
         return ans
