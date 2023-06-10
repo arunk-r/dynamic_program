@@ -42,6 +42,33 @@ kill is guaranteed to be in pid.
 class KillProcess {
     fun killProcess(pid: List<Int>, ppid: List<Int>, kill: Int): List<Int> {
         val map = hashMapOf<Int, MutableList<Int>>()
+        for(i in pid.indices) {
+            val p = pid[i]
+            val pp = ppid[i]
+            map.putIfAbsent(p, mutableListOf())
+            map.putIfAbsent(pp, mutableListOf())
+            map[pp]?.add(p)
+        }
+        val result = mutableListOf<Int>()
+        val seen = hashSetOf<Int>()
+        val q = ArrayDeque<Int>()
+        q.add(kill)
+        seen.add(kill)
+        while(q.isNotEmpty()) {
+            val k = q.removeFirst()
+            result.add(k)
+            map[k]?.forEach{ nei ->
+                if (!seen.contains(nei)) {
+                    seen.add(nei)
+                    q.addLast(nei)
+                }
+            }
+        }
+        return result
+    }
+
+    fun killProcess1(pid: List<Int>, ppid: List<Int>, kill: Int): List<Int> {
+        val map = hashMapOf<Int, MutableList<Int>>()
 
         for(i in pid.indices) {
             val p = pid[i]
