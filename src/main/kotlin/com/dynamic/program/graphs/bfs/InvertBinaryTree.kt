@@ -25,7 +25,25 @@ import com.dynamic.program.trees.TreeNode
  *
  */
 class InvertBinaryTree {
+    /**
+     * DFS
+     */
     fun invertTree(root: TreeNode?): TreeNode? {
+        if(root == null) {
+            return null
+        }
+        val tmp = root.left
+        root.left = root.right
+        root.right = tmp
+        invertTree(root.left)
+        invertTree(root.right)
+        return root
+    }
+
+    /**
+     * BFS
+     */
+    fun invertTree1(root: TreeNode?): TreeNode? {
         val q = ArrayDeque<TreeNode?>()
         root?.let { q.addLast(root) }
         while (q.isNotEmpty()) {

@@ -1,8 +1,9 @@
-package com.dynamic.program.graphs.dfs
+package com.dynamic.program.graphs.dfs.medium
 
 import com.dynamic.program.trees.TreeNode
 
 /**
+ * https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/description/
  *  Lowest Common Ancestor of a Binary Search Tree
  *
  * Given a binary search tree (BST), find the lowest common ancestor (LCA) node of two given nodes in the BST.
@@ -45,7 +46,7 @@ class LowestCommonAncestorOfBinarySearchTree {
 
         var min = Int.MAX_VALUE
         var idx = 0
-        for (i in lftIdx .. rhtIdx){
+        (lftIdx .. rhtIdx).forEach { i ->
             if (depth[i] < min) {
                 min = depth[i]
                 idx = i
@@ -78,18 +79,6 @@ class LowestCommonAncestorOfBinarySearchTree {
         lastVisit[node.`val`] = depth.size - 1
     }
 
-    fun lowestCommonAncestor2(root: TreeNode, p: TreeNode, q: TreeNode): TreeNode {
-        val parentVal = root.`val`
-        val pVal = p.`val`
-        val qVal = q.`val`
-
-        if (pVal > parentVal && qVal > parentVal) {
-            lowestCommonAncestor(root.right, p, q)
-        } else if (pVal < parentVal && qVal < parentVal) {
-            lowestCommonAncestor(root.left, p, q)
-        }
-        return root
-    }
 
 
 }
@@ -100,5 +89,4 @@ fun main() {
     val t7 = TreeNode(7)
     val h = TreeNode(6, TreeNode(2, TreeNode(0), TreeNode(4, t3, t5)), TreeNode(8, t7, TreeNode(9)))
     println(LowestCommonAncestorOfBinarySearchTree().lowestCommonAncestor(h, t5, t3))
-    println(LowestCommonAncestorOfBinarySearchTree().lowestCommonAncestor2(h, t5, t3))
 }

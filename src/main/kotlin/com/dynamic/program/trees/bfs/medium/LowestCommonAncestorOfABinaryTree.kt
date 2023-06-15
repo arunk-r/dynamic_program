@@ -40,15 +40,15 @@ p and q will exist in the tree.
  */
 class LowestCommonAncestorOfABinaryTree {
     fun lowestCommonAncestor(root: TreeNode?, p: TreeNode?, q: TreeNode?): TreeNode? {
-        if (root == null) return null
-
-        val left = lowestCommonAncestor(root.left, p, q)
-        val right = lowestCommonAncestor(root.right, p, q)
-
-        return if (root == p || root == q) root
-        else if (left == null) right
-        else if (right == null) left
-        else root
+        var cur = root
+        while (cur != null) {
+            if (p!!.`val` > cur.`val` && q!!.`val` > cur.`val`) {
+                cur = cur.right
+            } else if (p!!.`val` < cur.`val` && q!!.`val` < cur.`val`) {
+                cur = cur.left
+            } else return cur
+        }
+        return root
     }
 
     val path = mutableListOf<Int>()
