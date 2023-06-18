@@ -34,25 +34,17 @@ class ReverseLinkedList {
     }
 
     fun reverseList(head: ListNode?): ListNode? {
-        if (head != null) {
-            var prev = head
-            var curr = prev.next
-            var next = curr?.next
-            prev.next = null
-            while (next != null) {
-                curr?.next = prev
-                prev = curr
-                curr = next
-                next = next.next
-            }
-            if (curr != null) {
-                curr.next = prev
-                return curr
-            } else {
-                return prev
-            }
-        } else {
-            return head
+        var p: ListNode? = head
+        var c: ListNode? = head?.next
+        var n: ListNode? = c?.next
+        p?.next = null
+        while(c != null) {
+            c?.next = p
+            p = c
+            c = n
+            n = n?.next
         }
+
+        return p
     }
 }

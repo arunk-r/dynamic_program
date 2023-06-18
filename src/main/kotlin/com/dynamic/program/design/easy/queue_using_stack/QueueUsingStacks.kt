@@ -55,56 +55,33 @@ import java.util.Stack
  *
  * Follow-up: Can you implement the queue such that each operation is amortized O(1) time complexity? In other words, performing n operations will take overall O(n) time even if one of those operations may take longer.
  */
-class ImplementQueueUsingStacks {
-    private val write = Stack<Int>()
-    private val read = Stack<Int>()
-    private var peek = -1
+class QueueUsingStacks {
+    private val store = Stack<Int>()
+    private val retrieve = Stack<Int>()
 
     fun push(x: Int) {
-        if (write.isEmpty()) {
-            peek = x
-        }
-        write.push(x)
+        store.push(x)
     }
 
     fun pop(): Int {
-        if (read.isEmpty()) {
-            while (write.isNotEmpty()) {
-                read.push(write.pop())
-            }
-        }
-        return read.pop()
-    }
-
-    fun pop1(): Int {
-        while (write.isNotEmpty()) {
-            read.push(write.pop())
-        }
-
-        val r = read.pop()
-        if (read.isNotEmpty()) {
-            peek = read.peek()
-        }
-
-        while (read.isNotEmpty()) {
-            write.push(read.pop())
-        }
-        return r
+        balance()
+        return retrieve.pop()
     }
 
     fun peek(): Int {
-        return if (read.isEmpty()) {
-            peek
-        } else {
-            read.peek()
-        }
-    }
-
-    fun peek1(): Int {
-        return peek
+        balance()
+        return retrieve.peek()
     }
 
     fun empty(): Boolean {
-        return write.isEmpty() && read.isEmpty()
+        return retrieve.isEmpty() && store.isEmpty()
+    }
+
+    private fun balance() {
+        if(retrieve.isEmpty()) {
+            while(store.isNotEmpty()) {
+                retrieve.push(store.pop())
+            }
+        }
     }
 }

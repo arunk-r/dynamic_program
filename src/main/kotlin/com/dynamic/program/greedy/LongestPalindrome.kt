@@ -28,6 +28,39 @@ import java.util.TreeSet
  */
 class LongestPalindrome {
     fun longestPalindrome(s: String): Int {
+        val map = hashMapOf<Char, Int>()
+        for (c in s) {
+            map.putIfAbsent(c, 0)
+            map[c] = map[c]!! + 1
+        }
+        var maxOdd = 0
+        var sum = 0
+        map.forEach { (_, v) ->
+            if (v % 2 == 0) {
+                sum += v
+            } else {
+                sum += v - 1
+                maxOdd = 1
+            }
+        }
+        return sum + maxOdd
+    }
+
+    val q = ArrayDeque<Int>()
+    var count = 0
+    fun ping(t: Int): Int {
+        q.addLast(t)
+        count++
+
+        while((q.last() - q.first()) <= 3000) {
+            q.removeFirst()
+            count--
+        }
+
+        return count
+    }
+
+    fun longestPalindrome1(s: String): Int {
         val set = TreeSet<Int>()
         set.addAll(intArrayOf(1,2).toList())
         val count = IntArray(128)
