@@ -42,6 +42,18 @@ Follow up: If you have figured out the O(n) solution, try coding another solutio
  */
 class MaximumSubarray {
     fun maxSubArray(nums: IntArray): Int {
+        val dp = IntArray(nums.size)
+        dp[0] = nums[0]
+        var max = dp[0]
+        for(i in 1 until nums.size) {
+            dp[i] = maxOf(dp[i-1], 0) + nums[i]
+            max = maxOf(max, dp[i])
+        }
+
+        return max
+    }
+
+    fun maxSubArray1(nums: IntArray): Int {
         var max = Int.MIN_VALUE
         var curSum = 0
         for (i in nums) {
