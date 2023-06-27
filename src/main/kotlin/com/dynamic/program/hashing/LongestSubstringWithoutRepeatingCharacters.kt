@@ -31,6 +31,20 @@ class LongestSubstringWithoutRepeatingCharacters {
 
     fun lengthOfLongestSubstring(s: String): Int {
         val map = hashMapOf<Char, Int>()
+        var l = 0
+        var max = 0
+        for(r in s.indices) {
+            val c = s[r]
+            l = maxOf(map[c] ?: 0, l)
+            max = maxOf(max, r - l + 1)
+            map[c] = r+1
+        }
+
+        return max
+    }
+
+    fun lengthOfLongestSubstring2(s: String): Int {
+        val map = hashMapOf<Char, Int>()
 
         for (c in s) map[c] = 0
         var d = Int.MIN_VALUE

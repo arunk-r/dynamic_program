@@ -64,8 +64,28 @@ package com.dynamic.program.graphs.bfs.medium
  */
 object CloneGraph {
     data class Node(val `val`: Int, val neighbors: MutableList<Node?> = mutableListOf())
-
     fun cloneGraph(node: Node?): Node? {
+        if(node == null) return node
+
+        val map = hashMapOf<Node, Node>()
+        map[node] = Node(node.`val`)
+        val q = ArrayDeque<Node>()
+        q.addLast(node)
+        while(q.isNotEmpty()) {
+            val cur = q.removeFirst()
+            for(nei in cur.neighbors) {
+                if(nei != null && !map.containsKey(nei)) {
+                    q.add(nei)
+                    map[nei] = Node(nei.`val`)
+                }
+                map[cur]?.neighbors?.add(map[nei]!!)
+            }
+        }
+        return map[node]!!
+    }
+
+
+    fun cloneGraph2(node: Node?): Node? {
         if (node == null) return node
         val map = hashMapOf<Node, Node>()
         val q = ArrayDeque<Node>()
