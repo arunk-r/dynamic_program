@@ -43,39 +43,55 @@ package com.dynamic.program.interval
  * 0 <= start <= end <= 105
  */
 class InsertInterval {
-    fun insert(intervals: Array<IntArray>, newInterval: IntArray): Array<IntArray> {
+    fun insert(intervals: Array<IntArray>, ni: IntArray): Array<IntArray> {
         val result = mutableListOf<IntArray>()
-        val (ib, ie) = newInterval
         var idx = 0
-
-        //capture all left part of intervals
-        while(idx < intervals.size && intervals[idx][0] < ib) {
+        // identify first part of merge
+        while (idx < intervals.size && intervals[idx][0] < ni[0]) {
             result.add(intervals[idx++])
         }
-
-        // insert new interval
-        if(intervals.isEmpty() || result.isEmpty() || ib > result[result.size-1][1]) {
-            result.add(newInterval)
+        // merge the new interval
+        if (intervals.isEmpty() || result.isEmpty() || ni[0] > result[result.size-1][1]) {
+            result.add(ni)
         } else {
-            val lastInterval = result[result.size-1]
-            lastInterval[1] = maxOf(lastInterval[1], ie)
+            val d = result[result.size - 1]
+            d[0] = minOf(d[0], ni[0])
+            d[1] = maxOf(d[1], ni[1])
         }
+        // merge remaining
+        while (idx < intervals.size) {
+            val d = result[result.size - 1]
+            val n = intervals[idx++]
 
-        //capture all right part of intervals
-        while(idx < intervals.size) {
-            val lastInterval = result[result.size-1]
-            val current = intervals[idx++]
-            if (current[0] <= lastInterval[1]) {
-                lastInterval[1] = maxOf(lastInterval[1], current[1])
+            if (n[0] in d[0]..d[1]) {
+                d[0] = minOf(d[0], n[0])
+                d[1] = maxOf(d[1], n[1])
             } else {
-                result.add(current)
+                result.add(n)
             }
         }
-
         return result.toTypedArray()
     }
 }
 
 fun main() {
-    println(InsertInterval().insert(arrayOf(intArrayOf(1,3), intArrayOf(6,9)), intArrayOf(2,5)))
+    /*println(
+        InsertInterval().insert(
+            arrayOf(
+                intArrayOf(1, 2),
+                intArrayOf(3, 5),
+                intArrayOf(6, 7),
+                intArrayOf(8, 10),
+                intArrayOf(12, 16)
+            ), intArrayOf(4, 8)
+        )
+    )*/
+
+    println(
+        InsertInterval().insert(
+            arrayOf(
+                intArrayOf(1, 5)
+            ), intArrayOf(6, 8)
+        )
+    )
 }
