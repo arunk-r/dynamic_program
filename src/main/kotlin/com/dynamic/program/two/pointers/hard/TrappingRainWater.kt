@@ -1,5 +1,8 @@
 package com.dynamic.program.two.pointers.hard
 
+import java.util.Stack
+import kotlin.math.max
+
 
 /**
  * 42. Trapping Rain Water
@@ -27,29 +30,78 @@ n == height.length
 0 <= height[i] <= 105
  */
 class TrappingRainWater {
-    fun trap(height: IntArray): Int {
-        var sum = 0
-        if (height.isEmpty()) return 0
-        var left = 0
-        var right = height.size -1
-        var leftMax = 0
-        var rightMax = 0
-        while (left < right) {
-            if (height[left] > leftMax) leftMax = height[left]
-            if (height[right] > rightMax) rightMax = height[right]
-            if (leftMax < rightMax) {
-                sum += maxOf(0, leftMax-height[left])
-                left++
+    // 2 pointers
+    fun trapTwoPointers(height: IntArray): Int {
+        var area = 0
+        var l = 1
+        var r = height.size-2
+        var lMax = height[0]
+        var rMax = height[height.size-1]
+        while (l < r) {
+            if (height[l] > lMax) {
+                lMax = height[l]
+            }
+            if (height[r] > rMax) {
+                rMax = height[r]
+            }
+            if(lMax > rMax) {
+                area += maxOf(0, rMax - height[r])
+                r--
             } else {
-                sum += maxOf(0, rightMax-height[right])
-                right --
+                area += maxOf(0, lMax - height[l])
+                l++
             }
         }
-        return sum
+        return area
+    }
+    //Stack
+    fun trapStk(height: IntArray): Int {
+        var area = 0
+        val stk = Stack<Int>()
+        var current = 0
+        while (current < height.size) {
+            while (stk.isNotEmpty() && height[current] > height[stk.peek()]) {
+                val idx = stk.pop()
+                if (stk.isEmpty()) {
+                    break
+                }
+                val minHgt = minOf(height[current], height[stk.peek()]) - height[idx]
+                val distance = current - stk.peek() - 1
+                area += maxOf(0, distance * minHgt)
+
+            }
+            stk.add(current++)
+        }
+        return area
+    }
+    //DP
+    fun trapDP(height: IntArray): Int {
+        val lHgt = IntArray(height.size)
+        val rHgt = IntArray(height.size)
+        var l = 0
+        var r = height.size - 1
+        while (r >= 0) {
+            if (l == 0 && r == height.size - 1 ) {
+                lHgt[l] = height[l]
+                rHgt[r] = height[r]
+            } else {
+                lHgt[l] = maxOf(height[l], lHgt[l-1])
+                rHgt[r] = maxOf(height[r], rHgt[r+1])
+            }
+            l++
+            r--
+        }
+        var area = 0
+        for (i in height.indices) {
+            area += minOf(lHgt[i], rHgt[i]) - height[i]
+        }
+        return area
     }
 
 }
 
 fun main() {
-    println(TrappingRainWater().trap(intArrayOf(0,1,0,2,1,0,1,3,2,1,2,1)))
+    println(TrappingRainWater().trapDP(intArrayOf(0,1,0,2,1,0,1,3,2,1,2,1)))
+    println(TrappingRainWater().trapStk(intArrayOf(0,1,0,2,1,0,1,3,2,1,2,1)))
+    println(TrappingRainWater().trapTwoPointers(intArrayOf(0,1,0,2,1,0,1,3,2,1,2,1)))
 }

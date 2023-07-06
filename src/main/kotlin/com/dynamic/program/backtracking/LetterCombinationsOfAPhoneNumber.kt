@@ -26,7 +26,38 @@ package com.dynamic.program.backtracking
  *
  */
 class LetterCombinationsOfAPhoneNumber {
+    val result = mutableListOf<String>()
     fun letterCombinations(digits: String): List<String> {
+        val map = hashMapOf<Char, MutableList<Char>>()
+        map['2'] = mutableListOf('a', 'b', 'c')
+        map['3'] = mutableListOf()
+        map['4'] = mutableListOf()
+        map['5'] = mutableListOf()
+        map['6'] = mutableListOf()
+        map['7'] = mutableListOf()
+        map['8'] = mutableListOf()
+        map['9'] = mutableListOf()
+        finCombination(0, digits, StringBuffer(), map)
+        return result
+    }
+
+    private fun finCombination(idx: Int, digits: String, cur: StringBuffer, map: HashMap<Char, MutableList<Char>>) {
+        if(idx == digits.length) {
+            if(cur.isNotEmpty()) {
+                result.add(cur.toString())
+            }
+        } else {
+            println(digits[idx])
+            map[digits[idx]]?.forEach { c->
+                cur.append(c)
+                finCombination(idx+1, digits, cur, map)
+                cur.deleteCharAt(cur.length-1)
+            }
+        }
+    }
+
+
+    fun letterCombinations1(digits: String): List<String> {
         val map = hashMapOf<Int, MutableList<Char>>()
         map[2] = mutableListOf('a','b','c')
         map[3] = mutableListOf('d','e','f')
