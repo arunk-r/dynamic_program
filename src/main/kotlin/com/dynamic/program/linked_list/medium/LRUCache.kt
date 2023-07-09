@@ -47,7 +47,53 @@ Constraints:
 At most 2 * 105 calls will be made to get and put.
  */
 class LRUCache(val capacity: Int) {
-    private class DLinkedList(val key: Int, var v: Int, var prev: DLinkedList? = null, var next: DLinkedList? = null)
+    data class Node(val k: Int, var v: Int, var prev: Node? = null, var next: Node? = null)
+    val map = hashMapOf<Int, Node>()
+    val head = Node(-1,-1)
+    val tail = Node(-1,-1)
+    var count = 0
+
+    init{
+        head.next = tail
+        tail.prev = head
+    }
+
+    fun get(key: Int): Int {
+        val v = map[key] ?: return -1
+        val tmpPrev = v.prev
+        val tmpNext = v.next
+        tmpPrev?.next = tmpNext
+        tmpNext?.prev = tmpPrev
+
+        insert(v)
+        return v.v
+    }
+
+    fun put(key: Int, value: Int) {
+        if(map[key] == null) {
+            val v = Node(key, value)
+            insert(v)
+            map[key] = v
+        } else {
+            map[key]!!.v = value
+            get(key)
+        }
+        if(map.size > capacity) {
+            map.remove(tail.prev?.k)
+            val tmp = tail.prev?.prev
+            tmp?.next = tail
+            tail.prev = tmp
+        }
+    }
+
+    fun insert(v: Node) {
+        val tmp = head.next
+        head.next = v
+        v.prev = head
+        v.next = tmp
+        tmp?.prev = v
+    }
+    /*private class DLinkedList(val key: Int, var v: Int, var prev: DLinkedList? = null, var next: DLinkedList? = null)
 
     private var head: DLinkedList = DLinkedList(-1, -1)
     private var tail: DLinkedList = DLinkedList(-1, -1)
@@ -115,7 +161,7 @@ class LRUCache(val capacity: Int) {
                 cache.remove(n1?.key)
             }
         }
-    }
+    }*/
 }
 
 fun main() {
@@ -133,15 +179,21 @@ fun main() {
      println( l.get(2))
      println( l.get(3))*/
 
-    val l = LRUCache(2)
-    l.put(2, 1)
-    l.put(3, 2)
+    val l = LRUCache(3)
+    l.put(1, 1)
+    l.put(2, 2)
+    l.put(3, 3)
+    l.put(4, 4)
+    println(l.get(4))
     println(l.get(3))
     println(l.get(2))
-    l.put(4, 3)
+    println(l.get(1))
+    l.put(5, 5)
+    println(l.get(1))
     println(l.get(2))
     println(l.get(3))
     println(l.get(4))
+    println(l.get(5))
 }
 
 //[null,null,1,null,-1,2]

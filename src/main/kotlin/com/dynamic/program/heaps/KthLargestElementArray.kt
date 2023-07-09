@@ -27,6 +27,48 @@ import java.util.PriorityQueue
  */
 class KthLargestElementArray {
     fun findKthLargest(nums: IntArray, k: Int): Int {
+        placeK(0, nums.size-1, nums, nums.size - k)
+        return nums[nums.size - k]
+    }
+
+    private fun placeK(low: Int, high: Int, nums: IntArray, k: Int) {
+        if (high <= low) return
+        val pivot = findPivot(low, high, nums)
+        if (pivot == k) return
+        if (pivot < k) {
+            placeK(pivot+1, high, nums, k)
+        } else {
+            placeK(low, pivot-1, nums, k)
+        }
+    }
+
+    private fun findPivot(low: Int, high: Int, nums: IntArray): Int {
+        var i = low
+        var j = high + 1
+
+        while (i < j) {
+            while (nums[++i] < nums[low]) {
+                if (i == high) break
+            }
+
+            while (nums[low] < nums[--j]) {
+                if (j == low) break
+            }
+
+            if (i >= j) break
+            swap(i, j, nums)
+        }
+        swap(low, j, nums)
+        return j
+    }
+
+    fun swap(i: Int, j: Int, nums: IntArray) {
+        val t = nums[i]
+        nums[i] = nums[j]
+        nums[j] = t
+    }
+
+    fun findKthLargest1(nums: IntArray, k: Int): Int {
         val heap = PriorityQueue<Int>()
         nums.forEach{ n ->
             heap.add(n)
@@ -36,4 +78,9 @@ class KthLargestElementArray {
         }
         return heap.peek()
     }
+}
+
+fun main() {
+    println(KthLargestElementArray().findKthLargest(intArrayOf(7,2,8,4,8,9,1), 3))
+    //1,2,4,5,7,9
 }

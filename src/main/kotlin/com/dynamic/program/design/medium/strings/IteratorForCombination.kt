@@ -65,8 +65,6 @@ class IteratorForCombination(characters: String, combinationLength: Int) {
     }
 
     fun next(): String {
-        val v = TreeSet<String>()
-        v.toMutableList()
         return if(counter < result.size) {
             result[counter++]
         } else {

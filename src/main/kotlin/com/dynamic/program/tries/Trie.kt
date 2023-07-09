@@ -1,54 +1,47 @@
 package com.dynamic.program.tries
 
 class Trie() {
-    data class PrefixTree(val childrens: HashMap<Char, PrefixTree>  = hashMapOf(), val suggestions: MutableList<String> = mutableListOf())
-    val root = PrefixTree()
+    data class Trie(val c: Char, val map: HashMap<Char, Trie> = hashMapOf(), var word: String = "")
+    val root = Trie(' ')
 
     fun insert(word: String) {
         var node = root
         for(c in word) {
-            node.childrens.putIfAbsent(c, PrefixTree())
-            node = node.childrens[c]!!
-            node.suggestions.add(word)
-            node.suggestions.sort()
+            var chld = node.map[c]
+            if(chld == null) {
+                chld = Trie(c)
+                node.map[c] = chld
+            }
+            node = chld
         }
-    }
-    fun insert(intervals: Array<IntArray>, newInterval: IntArray): Array<IntArray> {
-        intervals.sortWith(kotlin.Comparator{x,y -> x[0] - y[0]})
-        val result = mutableListOf<IntArray>()
-        return result.toTypedArray()
+        node.word = word
     }
 
     fun search(word: String): Boolean {
-        var node: PrefixTree? = root
+        var node: Trie? = root
         for(c in word) {
-            if (node != null) {
-                node = node.childrens[c]
-                if (node == null) return false
-            } else return false
+            node = node!!.map[c]
+            if(node == null) return false
         }
-        return node!!.suggestions.contains(word)
+        return node?.word == word
     }
 
     fun startsWith(prefix: String): Boolean {
-        var node: PrefixTree? = root
+        var node: Trie? = root
         for(c in prefix) {
-            if (node != null) {
-                node = node.childrens[c]
-            } else {
-                return false
-            }
+            node = node!!.map[c]
+            if(node == null) return false
         }
-        return node != null
+        return true
     }
 
 }
 
 fun main() {
     var obj = Trie()
-    obj.insert("")
-    var param_2 = obj.search("a")
-    var param_3 = obj.startsWith("a")
+    obj.insert("apple")
+    var param_2 = obj.search("apple")
+    var param_3 = obj.startsWith("app")
 }
 
 /**
