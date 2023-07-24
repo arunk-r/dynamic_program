@@ -1,4 +1,4 @@
-package com.dynamic.program.data.structures.sorting
+package com.dynamic.program.data.structures.sorting.mergesort
 
 class MergeSort {
     fun mergesort(nums: IntArray) {
@@ -20,9 +20,10 @@ class MergeSort {
         var i = lo
         var j = mid + 1
         for (k in lo..hi) {
-            if (i > mid) nums[k] = aux[j++]
-            else if (j > hi) nums[k] = aux[i++]
+
+            if (j > hi) nums[k] = aux[i++]
             else if (aux[j] < aux[i]) nums[k] = aux[j++]
+            else if (i > mid) nums[k] = aux[j++]
             else nums[k] = aux[i++]
         }
     }

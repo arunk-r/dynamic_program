@@ -43,30 +43,31 @@ nums is an ascending array that is possibly rotated.
  */
 class SearchInRotatedSortedArray {
     fun search(nums: IntArray, target: Int): Int {
-        var left = 0
-        var right = nums.size - 1
-        while (left <= right) {
-            val mid = left + (right - left) / 2
-            if (nums[mid] == target) return mid
-            else if (nums[mid] >= nums[left]) {
-                if (target >= nums[left] && target < nums[mid]) {
-                    right = mid - 1
+        var l = 0
+        var r = nums.size - 1
+        while(l < r) {
+            val mid = l + (r - l) / 2
+            if(target == nums[mid]) return mid
+            else if(nums[l] < nums[mid]) {
+                if(target in nums[l] .. nums[mid]) {
+                    r = mid - 1
                 } else {
-                    left = mid + 1
+                    l = mid + 1
                 }
             } else {
-                if (target > nums[mid] && target <= nums[right]) {
-                    left = mid + 1
+                if(target in nums[mid+1] .. nums[r]) {
+                    l = mid + 1
                 } else {
-                    right = mid - 1
+                    r = mid - 1
                 }
             }
         }
+        if(nums[r] == target) return target
         return -1
     }
 }
 
 fun main() {
-    //println(SearchInRotatedSortedArray().search(intArrayOf(4,5,6,7,0,1,2), 0))
-    println(SearchInRotatedSortedArray().search(intArrayOf(1,3), 3))
+    println(SearchInRotatedSortedArray().search(intArrayOf(4,5,6,7,0,1,2), 3))
+    //println(SearchInRotatedSortedArray().search(intArrayOf(1,3), 3))
 }

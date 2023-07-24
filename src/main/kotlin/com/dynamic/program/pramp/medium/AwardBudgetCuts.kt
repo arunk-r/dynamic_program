@@ -1,5 +1,8 @@
 package com.dynamic.program.pramp.medium
 
+import java.text.SimpleDateFormat
+import java.util.Date
+
 /**
  * Award Budget Cuts
  * The awards committee of your alma mater (i.e. your college/university) asked for your assistance with a budget allocation problem they’re facing. Originally, the committee planned to give N research grants this year. However, due to spending cutbacks, the budget was reduced to newBudget dollars and now they need to reallocate the grants. The committee made a decision that they’d like to impact as few grant recipients as possible by applying a maximum cap on all grants. Every grant initially planned to be higher than cap will now be exactly cap dollars. Grants less or equal to cap, obviously, won’t be impacted.
@@ -28,7 +31,34 @@ package com.dynamic.program.pramp.medium
  * [output] double
  */
 class AwardBudgetCuts {
+    fun budgetMatch(grants: DoubleArray, newGrant: Double): Double {
+        var count: Double = 0.0
+        for (grant in grants) {
+            count += minOf(grant, newGrant)
+        }
+        return count
+    }
     fun findGrantsCap(grants: DoubleArray, newGrant: Double): Double {
+        var min = Double.MAX_VALUE
+        var max = Double.MIN_VALUE
+        for (grant in grants) {
+            min = minOf(grant, min)
+            max = maxOf(grant, max)
+        }
+        while (min <= max) {
+            val mid = min + (max  - min) / 2.0
+            println(mid)
+            val total = budgetMatch(grants, mid)
+            if (total == newGrant) return mid
+            else if (total > newGrant) {
+                max = mid - 0.01
+            } else {
+                min = mid + 0.01
+            }
+        }
+        return min
+    }
+    fun findGrantsCap1(grants: DoubleArray, newGrant: Double): Double {
         grants.sort()
 
         var newNum = newGrant / grants.size * 1.0
@@ -48,5 +78,13 @@ class AwardBudgetCuts {
 
 
 fun main() {
+    val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss.SSS")
+    var currentDate = sdf.format(Date())
+    println(" C DATE is  $currentDate")
     println(AwardBudgetCuts().findGrantsCap(doubleArrayOf(2.0, 100.0, 50.0, 120.0, 1000.0), 190.0))
+    currentDate = sdf.format(Date())
+    println(" C DATE is  $currentDate")
+    println(AwardBudgetCuts().findGrantsCap1(doubleArrayOf(2.0, 100.0, 50.0, 120.0, 1000.0), 190.0))
+    currentDate = sdf.format(Date())
+    println(" C DATE is  $currentDate")
 }
