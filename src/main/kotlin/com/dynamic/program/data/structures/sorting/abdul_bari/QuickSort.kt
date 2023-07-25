@@ -14,10 +14,10 @@ class QuickSort {
         var i = low
         var j = high
         while (i < j) {
-            while (i < arr.size && arr[i] <= pivot) {
+            while (i <= high && arr[i] <= pivot) {
                 i++
             }
-            while (j >= 0 && arr[j] > pivot) {
+            while (j >= low && arr[j] > pivot) {
                 j--
             }
             if (i < j) {
@@ -27,7 +27,7 @@ class QuickSort {
         if (j != low) {
             swap(arr, low, j)
         }
-        return j
+        return  j
     }
 
     private fun swap(arr: IntArray, i: Int, j: Int) {

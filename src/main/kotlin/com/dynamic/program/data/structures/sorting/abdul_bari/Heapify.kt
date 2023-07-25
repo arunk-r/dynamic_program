@@ -2,26 +2,31 @@ package com.dynamic.program.data.structures.sorting.abdul_bari
 
 class Heapify {
     fun heapify(arr: IntArray) {
+        maxHeapify(arr)
+    }
+
+    private fun maxHeapify(arr: IntArray) {
         val size = arr.size
         for (i in size/2 - 1 downTo 0) {
-            maxHeapify(arr, i, size)
+            heapify(arr, i, size)
         }
     }
 
-    fun maxHeapify(arr: IntArray, idx: Int, size: Int) {
-        val leftChild = idx * 2 + 1
-        val rightChild = idx * 2 + 2
-        var maxI = idx
-        if (leftChild < size && arr[maxI] < arr[leftChild]) {
-            maxI = leftChild
+    private fun heapify(arr: IntArray, idx: Int, size: Int) {
+        val l = 2 * idx + 1
+        val r = 2 * idx + 2
+        var midI = idx
+        if (l < size && arr[midI] < arr[l]) {
+            midI = l
         }
 
-        if (rightChild < size && arr[maxI] < arr[rightChild]) {
-            maxI = rightChild
+        if (r < size && arr[midI] < arr[r]) {
+            midI = r
         }
-        if (idx != maxI) {
-            swap(arr, idx, maxI)
-            maxHeapify(arr, maxI, size)
+
+        if (midI != idx) {
+            swap(arr, idx, midI)
+            heapify(arr, midI, size)
         }
     }
 
