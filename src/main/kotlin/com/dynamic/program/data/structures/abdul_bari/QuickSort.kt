@@ -1,4 +1,4 @@
-package com.dynamic.program.data.structures.sorting.abdul_bari
+package com.dynamic.program.data.structures.abdul_bari
 
 class QuickSort {
     fun quickSort(arr: IntArray, low: Int = 0, high: Int = arr.size - 1) {

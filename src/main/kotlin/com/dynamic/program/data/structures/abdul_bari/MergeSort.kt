@@ -1,4 +1,4 @@
-package com.dynamic.program.data.structures.sorting.abdul_bari
+package com.dynamic.program.data.structures.abdul_bari
 
 class MergeSort {
     fun mergeSort(array: IntArray, aux: IntArray = IntArray(array.size), low: Int = 0, high: Int = array.size - 1) {

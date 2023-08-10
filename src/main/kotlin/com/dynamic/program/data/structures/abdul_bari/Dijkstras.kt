@@ -1,4 +1,4 @@
-package com.dynamic.program.data.structures.sorting.abdul_bari
+package com.dynamic.program.data.structures.abdul_bari
 
 import java.util.HashSet
 import java.util.PriorityQueue

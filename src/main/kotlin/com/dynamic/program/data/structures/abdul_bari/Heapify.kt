@@ -1,4 +1,4 @@
-package com.dynamic.program.data.structures.sorting.abdul_bari
+package com.dynamic.program.data.structures.abdul_bari
 
 class Heapify {
     fun heapify(arr: IntArray) {

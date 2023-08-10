@@ -1,4 +1,4 @@
-package com.dynamic.program.data.structures.sorting.abdul_bari.minimumcostspanningtree
+package com.dynamic.program.data.structures.abdul_bari.minimumcostspanningtree
 
 import java.util.PriorityQueue
 
