@@ -1,4 +1,4 @@
-package com.dynamic.program.top.hundred
+package com.dynamic.program.top.hundred.medium
 
 /**
  * https://leetcode.com/problems/wiggle-sort/

@@ -1,4 +1,4 @@
-package com.dynamic.program.top.hundred
+package com.dynamic.program.top.hundred.medium
 
 import java.util.PriorityQueue
 

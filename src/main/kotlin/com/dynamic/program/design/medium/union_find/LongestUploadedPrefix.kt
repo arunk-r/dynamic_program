@@ -1,7 +1,7 @@
 package com.dynamic.program.design.medium.union_find
 
 
-class LUPrefix(n: Int) {
+class LongestUploadedPrefix(n: Int) {
     private var root = IntArray(n + 2) { i -> i }
     private val seen = HashSet<Int>()
 
@@ -41,7 +41,7 @@ class LUPrefix(n: Int) {
     }
 }
 
-class LUPrefix2(val n: Int) {
+class LongestUploadedPrefix2(val n: Int) {
     private var root = IntArray(n + 2) { i -> i }
     private val seen = HashSet<Int>()
     init {
@@ -78,7 +78,7 @@ class LUPrefix2(val n: Int) {
     }
 }
 
-class LUPrefix1(val n: Int) {
+class LongestUploadedPrefix1(val n: Int) {
     var map = IntArray(n + 1) { -1 }
     var idx = 0
 
@@ -100,7 +100,7 @@ class LUPrefix1(val n: Int) {
 }
 
 fun main() {
-    val d = LUPrefix2(4)
+    val d = LongestUploadedPrefix2(4)
     d.upload(3)
     println(d.longest())
     d.upload(1)
