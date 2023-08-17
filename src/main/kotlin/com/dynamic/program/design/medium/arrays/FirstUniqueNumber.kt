@@ -1,7 +1,6 @@
 package com.dynamic.program.design.medium.arrays
 
-import java.util.TreeMap
-import java.util.TreeSet
+import java.util.ArrayDeque
 
 /**
  * https://leetcode.com/problems/first-unique-number/
@@ -77,42 +76,31 @@ import java.util.TreeSet
  *
  */
 class FirstUniqueNumber(val nums: IntArray) {
-    data class Data(val v: Int, var c: Int = 0) {
-        override fun equals(other: Any?): Boolean {
-            if (this === other) return true
-            if (other !is Data) return false
+    val q = ArrayDeque<Int>()
+    val map = hashMapOf<Int, Boolean>()
 
-            return v == other.v
-        }
-
-        override fun hashCode(): Int {
-            return v
-        }
-    }
-
-    val map = HashMap<Int, Data>()
-    val set = TreeSet<Data> { x, y -> x.c - y.c }
-
-    init {
-        for (n in nums) {
+    init{
+        nums.forEach{ n ->
             add(n)
         }
     }
     fun showFirstUnique(): Int {
-        if (set.isEmpty()) return -1
-        val v = set.first()
-        return if (v.c == 1) v.v else -1
+        while(q.isNotEmpty() && map[q.peek()] == false) {
+            q.remove()
+        }
+        if(q.isNotEmpty()) {
+            return q.peek()
+        }
+        return -1
     }
 
     fun add(value: Int) {
-        var v = map[value]
-        if (v == null) {
-            v = Data(value)
-            map[value] = v
+        if(map.containsKey(value)) {
+            map[value] = false
+        } else {
+            map[value] = true
+            q.add(value)
         }
-        v.c++
-        set.add(v)
-
     }
 
 }

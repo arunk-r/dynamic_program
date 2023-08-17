@@ -33,6 +33,9 @@ package com.dynamic.program.top.hundred.medium
  */
 class FindKLengthSubstringsWithNoRepeatedCharacters {
     fun numKLenSubstrNoRepeats(s: String, k: Int): Int {
+        for((c, i) in s.withIndex()) {
+            println("$c $i")
+        }
         var cnt = 0
         var l = 0
         var r = 0
@@ -53,4 +56,8 @@ class FindKLengthSubstringsWithNoRepeatedCharacters {
         }
         return cnt
     }
+}
+
+fun main() {
+    println(FindKLengthSubstringsWithNoRepeatedCharacters().numKLenSubstrNoRepeats("abs", 1))
 }
