@@ -1,5 +1,8 @@
 package com.dynamic.program.graphs.bfs
 
+import java.util.PriorityQueue
+import java.util.TreeSet
+
 /**
  * You are given an m x n grid, grid of values 0, 1, or 2,
  *
@@ -40,11 +43,69 @@ package com.dynamic.program.graphs.bfs
  * There will be at least one building in the grid.
  */
 class ShortestDistanceFromAllBuildings {
-    val dir = listOf(Pair(0,1),Pair(1,0),Pair(0,-1),Pair(-1,0))
+    data class Data(val r: Int, val c: Int)
+    data class Distance(val pos: Data, val cnt: Int = 0)
+
+    val dir = listOf(Data(1, 0), Data(-1, 0), Data(0, 1), Data(0, -1))
     fun shortestDistance(grid: Array<IntArray>): Int {
+        var minDist = Int.MAX_VALUE
+        val houses = HashSet<Data>()
+        for (r in grid.indices) {
+            for (c in grid[r].indices) {
+                if (grid[r][c] == 1) {
+                    houses.add(Data(r, c))
+                }
+            }
+        }
+        for (r in grid.indices) {
+            for (c in grid[r].indices) {
+                if (grid[r][c] == 0) {
+                    minDist = minOf(minDist, dfs(grid, houses, Data(r, c)))
+                }
+            }
+        }
+        return if (minDist == Int.MAX_VALUE) -1 else minDist
+    }
+
+    private fun dfs(grid: Array<IntArray>, houses: HashSet<Data>, start: Data): Int {
+        val map = HashMap<Data, Int>()
+        val seen = HashSet<Data>()
+        var count = houses.size
+        val q = PriorityQueue<Distance> { x, y -> x.cnt - y.cnt }
+        q.add(Distance(start))
+        seen.add(start)
+
+        while (count > 0 && q.isNotEmpty()) {
+            val (pos, cnt) = q.remove()
+            if (grid[pos.r][pos.c] == 1) {
+                count--
+                map[pos] = cnt
+                continue
+            } else {
+                dir.forEach { (r1, c1) ->
+                    val nr = pos.r + r1
+                    val nc = pos.c + c1
+                    val newPos = Data(nr, nc)
+                    if (nr in grid.indices && nc in grid[nr].indices && !seen.contains(newPos) && grid[nr][nc] != 2) {
+                        seen.add(newPos)
+                        q.add(Distance(newPos, cnt + 1))
+                    }
+                }
+            }
+        }
+        data class Data(val t: Int, val s: String)
+
+
+        if(map.size != houses.size) return Int.MAX_VALUE
+        val sum = map.values.sum()
+        return if (sum == 0) Int.MAX_VALUE else sum
+    }
+
+    val dir1 = listOf(Pair(0, 1), Pair(1, 0), Pair(0, -1), Pair(-1, 0))
+    fun shortestDistance1(grid: Array<IntArray>): Int {
         val rows = grid.size
         val cols = grid[0].size
-        val total = Array(rows) {IntArray(cols){0}}
+        val total = Array(rows) { IntArray(cols) { 0 } }
 
         val q = ArrayDeque<Pair<Int, Int>>()
 
@@ -54,14 +115,14 @@ class ShortestDistanceFromAllBuildings {
             for (c in grid[r].indices) {
 
                 if (grid[r][c] == 1) {
-                    q.addLast(Pair(r,c))
+                    q.addLast(Pair(r, c))
                     var steps = 0
-                    minDis = Integer.MAX_VALUE;
-                    while(q.isNotEmpty()) {
+                    minDis = Integer.MAX_VALUE
+                    while (q.isNotEmpty()) {
                         steps++
                         for (i in q.size - 1 downTo 0) {
                             val cur = q.removeFirst()
-                            dir.forEach{ p ->
+                            dir1.forEach { p ->
                                 val nr = cur.first + p.first
                                 val nc = cur.second + p.second
 
@@ -74,7 +135,7 @@ class ShortestDistanceFromAllBuildings {
                             }
                         }
                     }
-                    emptyLandValue --
+                    emptyLandValue--
                 }
             }
         }
@@ -84,5 +145,6 @@ class ShortestDistanceFromAllBuildings {
 }
 
 fun main() {
-    println(ShortestDistanceFromAllBuildings().shortestDistance(arrayOf(intArrayOf(1,0,2,0,1),intArrayOf(0,0,0,0,0),intArrayOf(0,0,1,0,0))))
+    println(ShortestDistanceFromAllBuildings().shortestDistance(arrayOf(intArrayOf(1, 2, 0))))
+    //println(ShortestDistanceFromAllBuildings().shortestDistance(arrayOf(intArrayOf(1, 0, 2, 0, 1), intArrayOf(0, 0, 0, 0, 0), intArrayOf(0, 0, 1, 0, 0))))
 }

@@ -1,5 +1,7 @@
 package com.dynamic.program.graphs.bfs.hard
 
+import java.util.PriorityQueue
+
 /**
  * 505. The Maze II - https://leetcode.com/problems/the-maze-ii/description/
  * Medium
@@ -54,8 +56,49 @@ package com.dynamic.program.graphs.bfs.hard
  * The maze contains at least 2 empty spaces.
  */
 class TheMazeII {
-    val dir = listOf(Pair(1,0), Pair(0,1),Pair(-1,0), Pair(0,-1))
+    data class Data(val r: Int, val c: Int)
+    data class Distance(val pos: Data, val cnt: Int = 0)
+
+    val dir = listOf(Data(1, 0), Data(0, 1), Data(-1, 0), Data(0, -1))
+
     fun shortestDistance(maze: Array<IntArray>, start: IntArray, destination: IntArray): Int {
+        val distance = Array(maze.size) { IntArray(maze[0].size) { Int.MAX_VALUE } }
+        distance[start[0]][start[1]] = 0
+        dijkstra(maze, Data(start[0], start[1]), distance)
+        val result = distance[destination[0]][destination[1]]
+        return if (result == Int.MAX_VALUE) -1 else result
+    }
+
+    private fun dijkstra(maze: Array<IntArray>, start: Data, distance: Array<IntArray>) {
+        val q = PriorityQueue<Distance> { x, y -> x.cnt - y.cnt }
+        q.add(Distance(start))
+
+        while (q.isNotEmpty()) {
+            val (d, cnt) = q.remove()
+            if (distance[d.r][d.c] < cnt) {
+                continue
+            } else {
+                dir.forEach { (r1, c1) ->
+                    var nr = d.r + r1
+                    var nc = d.c + c1
+                    var count = 0
+                    while (nr in maze.indices && nc in maze[nr].indices && maze[nr][nc] == 0) {
+                        nr += r1
+                        nc += c1
+                        count++
+                    }
+                    nr -= r1
+                    nc -= c1
+                    if (distance[d.r][d.c] + count < distance[nr][nc]) {
+                        distance[nr][nc] = distance[d.r][d.c] + count
+                        q.add(Distance(Data(nr, nc), distance[nr][nc]))
+                    }
+                }
+            }
+        }
+    }
+
+    fun shortestDistance1(maze: Array<IntArray>, start: IntArray, destination: IntArray): Int {
         val (sr, sc) = start
         val (dr, dc) = destination
         val q = ArrayDeque<Triple<Int, Int, Int>>()
@@ -64,16 +107,16 @@ class TheMazeII {
         q.addLast(Triple(sr, sc, 0))
         seen.add(Pair(sr, sc))
         var min = Int.MAX_VALUE
-        while(q.isNotEmpty()) {
+        while (q.isNotEmpty()) {
             val (r, c, cnt) = q.removeFirst()
             if (r == dr && c == dc) {
                 min = minOf(cnt, min)
             } else {
-                dir.forEach{ (r1 ,c1) ->
+                dir.forEach { (r1, c1) ->
                     var nr = r + r1
                     var nc = c + c1
                     var nCnt = 0
-                    while(nr in maze.indices && nc in maze[nr].indices && maze[nr][nc] == 0) {
+                    while (nr in maze.indices && nc in maze[nr].indices && maze[nr][nc] == 0) {
                         nr += r1
                         nc += c1
                         nCnt++
@@ -81,9 +124,9 @@ class TheMazeII {
 
                     nr -= r1
                     nc -= c1
-                    if(!seen.contains(Pair(nr, nc))) {
+                    if (!seen.contains(Pair(nr, nc))) {
                         seen.add(Pair(nr, nc))
-                        q.addLast(Triple(nr, nc, cnt+nCnt))
+                        q.addLast(Triple(nr, nc, cnt + nCnt))
                     }
                 }
             }
@@ -92,4 +135,14 @@ class TheMazeII {
             -1
         else min
     }
+}
+
+fun main() {
+    println(TheMazeII().shortestDistance(arrayOf(
+            intArrayOf(0, 0, 1, 0, 0),
+            intArrayOf(0, 0, 0, 0, 0),
+            intArrayOf(0, 0, 0, 1, 0),
+            intArrayOf(1, 1, 0, 1, 1),
+            intArrayOf(0, 0, 0, 0, 0)
+    ), intArrayOf(0, 4), intArrayOf(4, 4)))
 }

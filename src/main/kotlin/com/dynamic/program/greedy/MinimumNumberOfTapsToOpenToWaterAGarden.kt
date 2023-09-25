@@ -5,6 +5,44 @@ package com.dynamic.program.greedy
  */
 class MinimumNumberOfTapsToOpenToWaterAGarden {
     fun minTaps(n: Int, ranges: IntArray): Int {
+        val maxReach = IntArray(n+1)
+        for((i, v) in ranges.withIndex()) {
+            if(v != 0) {
+                // Calculate the leftmost position the tap can reach
+                val start = maxOf(0, i - v)
+                // Calculate the rightmost position the tap can reach
+                val end = minOf(n, i + v)
+                maxReach[start] = maxOf(maxReach[start], end);
+            }
+        }
+
+        // Number of taps used
+        var taps = 0
+        // Current rightmost position reached
+        var currEnd = 0
+        // Next rightmost position that can be reached
+        var nextEnd = 0
+        // Iterate through the garden
+        for (i in 0..n) {
+            // Current position cannot be reached
+            if (i > nextEnd) {
+                return -1
+            }
+            // Increment taps when moving to a new tap
+            if (i > currEnd) {
+                taps++
+                // Move to the rightmost position that can be reached
+                currEnd = nextEnd
+            }
+
+            // Update the next rightmost position that can be reached
+            nextEnd = maxOf(nextEnd, maxReach[i])
+        }
+        // Return the minimum number of taps used
+        return taps
+    }
+
+    fun minTaps1(n: Int, ranges: IntArray): Int {
         // to hold the tap range values
         val set = mutableListOf<IntArray>()
         // inset the data as per problem defination.
@@ -45,8 +83,9 @@ class MinimumNumberOfTapsToOpenToWaterAGarden {
 }
 
 fun main() {
-    println(MinimumNumberOfTapsToOpenToWaterAGarden().minTaps(8, intArrayOf(4,0,0,0,4,0,0,0,4)))
-    println(MinimumNumberOfTapsToOpenToWaterAGarden().minTaps(7, intArrayOf(1,2,1,0,2,1,0,1)))
+    println(MinimumNumberOfTapsToOpenToWaterAGarden().minTaps(5, intArrayOf(3,0,1,1,0,1)))
+    //println(MinimumNumberOfTapsToOpenToWaterAGarden().minTaps(8, intArrayOf(4,0,0,0,4,0,0,0,4)))
+    //println(MinimumNumberOfTapsToOpenToWaterAGarden().minTaps(7, intArrayOf(1,2,1,0,2,1,0,1)))
     //println(MinimumNumberOfTapsToOpenToWaterAGarden().minTaps(5, intArrayOf(3,4,1,1,0,0)))
     //println(MinimumNumberOfTapsToOpenToWaterAGarden().minTaps(5, intArrayOf(0,0,0,0,0,0)))
 }

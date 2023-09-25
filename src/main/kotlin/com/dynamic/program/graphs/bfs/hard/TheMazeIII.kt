@@ -1,6 +1,19 @@
 package com.dynamic.program.graphs.bfs.hard
 
-import java.util.TreeSet
+import java.util.*
+import kotlin.collections.ArrayDeque
+import kotlin.collections.ArrayList
+import kotlin.collections.HashSet
+import kotlin.collections.List
+import kotlin.collections.MutableList
+import kotlin.collections.component1
+import kotlin.collections.component2
+import kotlin.collections.forEach
+import kotlin.collections.hashSetOf
+import kotlin.collections.indices
+import kotlin.collections.isNotEmpty
+import kotlin.collections.listOf
+
 
 /**
  * 499. The Maze III - https://leetcode.com/problems/the-maze-iii/
@@ -59,9 +72,54 @@ import java.util.TreeSet
  * Both the ball and the hole exist in an empty space, and they will not be in the same position initially.
  * The maze contains at least 2 empty spaces.
  */
-class TheMazeIII{
-    val dir = listOf(Triple(0, -1, 'l'), Triple(0, 1, 'r'), Triple(1,0, 'd'), Triple(-1,0, 'u'))
-    fun findShortestWay(maze: Array<IntArray>, ball: IntArray, hole: IntArray): String {
+class TheMazeIII {
+    val dir = listOf(Triple(0, -1, 'l'), Triple(0, 1, 'r'), Triple(1, 0, 'd'), Triple(-1, 0, 'u'))
+
+    data class Data(val r: Int, val c: Int)
+    data class Distance(val pos: Data, val cnt: Int = 0, val dir: String = "")
+
+    fun findShortestWay(maze: Array<IntArray>, ball: IntArray, hole: IntArray): String? {
+        val heap: PriorityQueue<Distance> = PriorityQueue<Distance> { x, y -> if (x.cnt == y.cnt) x.dir.compareTo(y.dir) else x.cnt - y.cnt }
+        val seen = HashSet<Data>()
+        heap.add(Distance(Data(ball[0], ball[1]), 0, ""))
+        while (!heap.isEmpty()) {
+            val (pos, cnt, direction) = heap.remove()
+            if (seen.contains(pos)) {
+                continue
+            }
+            if (pos.r == hole[0] && pos.c == hole[1]) {
+                return direction
+            }
+            seen.add(pos)
+            getNeighbors(pos, maze, hole).forEach { (newPos, newCnt, newDir) ->
+                heap.add(Distance(newPos, cnt + newCnt, "$direction$newDir"))
+            }
+        }
+        return "impossible"
+    }
+
+    private fun valid(row: Int, col: Int, maze: Array<IntArray>): Boolean = row in maze.indices && col in maze[row].indices && maze[row][col] == 0
+
+    private fun getNeighbors(d: Data, maze: Array<IntArray>, hole: IntArray): List<Distance> {
+        val neighbors = mutableListOf<Distance>()
+        dir.forEach { (r1, c1, c) ->
+            var count = 0
+            var nr = d.r
+            var nc = d.c
+            while (valid(nr+r1, nc+c1, maze)) {
+                nr += r1
+                nc += c1
+                count++
+                if (nr == hole[0] && nc == hole[1]) {
+                    break
+                }
+            }
+            neighbors.add(Distance(Data(nr, nc), count, "$c"))
+        }
+        return neighbors
+    }
+
+    fun findShortestWay1(maze: Array<IntArray>, ball: IntArray, hole: IntArray): String {
         val q = ArrayDeque<Triple<Int, Int, String>>()
         val seen = hashSetOf<Pair<Int, Int>>()
 
@@ -70,15 +128,15 @@ class TheMazeIII{
         q.addLast(Triple(sr, sc, ""))
         seen.add(Pair(sr, sc))
 
-        val set= TreeSet<String>()
+        val set = TreeSet<String>()
 
-        while(q.isNotEmpty()) {
+        while (q.isNotEmpty()) {
             val (r, c, str) = q.removeFirst()
-            dir.forEach{ (r1, c1, d) ->
+            dir.forEach { (r1, c1, d) ->
                 var nr = r + r1
                 var nc = c + c1
-                while(nr in maze.indices && nc in maze[nr].indices && maze[nr][nc] == 0) {
-                    if (nr == dr && nc == dc){
+                while (nr in maze.indices && nc in maze[nr].indices && maze[nr][nc] == 0) {
+                    if (nr == dr && nc == dc) {
                         set.add("$str$d")
                     }
                     nr += r1
@@ -94,11 +152,17 @@ class TheMazeIII{
                 }
             }
         }
-        return if(set.isEmpty()) {
+        return if (set.isEmpty()) {
             "impossible"
         } else {
             //println(set)
             set.first()
         }
     }
+}
+
+fun main() {
+    println(TheMazeIII().findShortestWay(arrayOf(
+            intArrayOf(0, 0, 0, 0, 0), intArrayOf(1, 1, 0, 0, 1), intArrayOf(0, 0, 0, 0, 0), intArrayOf(0, 1, 0, 0, 1), intArrayOf(0, 1, 0, 0, 0)
+    ), intArrayOf(4, 3), intArrayOf(0, 1)))
 }
