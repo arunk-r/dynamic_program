@@ -1,5 +1,7 @@
 package com.dynamic.program.strings_arrays.easy
 
+import java.util.TreeMap
+
 /**
  * 13. Roman to Integer
 Easy
@@ -49,23 +51,52 @@ s contains only the characters ('I', 'V', 'X', 'L', 'C', 'D', 'M').
 It is guaranteed that s is a valid roman numeral in the range [1, 3999].
  */
 class RomanToInteger {
+    fun intToRoman(num: Int): String {
+        val map = TreeMap<Int, String> { x, y -> y - x }
+        map[1] = "I"
+        map[4] = "IV"
+        map[5] = "V"
+        map[9] = "IX"
+        map[10] = "X"
+        map[40] = "XL"
+        map[50] = "L"
+        map[90] = "XC"
+        map[100] = "C"
+        map[400] = "CD"
+        map[500] = "D"
+        map[900] = "CM"
+        map[1000] = "M"
+        var newNum = num
+        val ans = StringBuffer()
+        while (newNum > 0) {
+            for ((intNum, romanSymbol) in map) {
+                if (newNum >= intNum) {
+                    ans.append(romanSymbol)
+                    newNum -= intNum
+                    break
+                }
+            }
+        }
+        return ans.toString()
+    }
+
     fun romanToInt(s: String): Int {
         var sum = 0
-        for(c in s) {
-            when(c) {
-                'I' -> sum+= 1
-                'V' -> sum+= 5
-                'X' -> sum+= 10
-                'L' -> sum+= 50
-                'C' -> sum+= 100
-                'D' -> sum+= 500
-                'M' -> sum+= 1000
+        for (c in s) {
+            when (c) {
+                'I' -> sum += 1
+                'V' -> sum += 5
+                'X' -> sum += 10
+                'L' -> sum += 50
+                'C' -> sum += 100
+                'D' -> sum += 500
+                'M' -> sum += 1000
                 else -> 0
             }
         }
 
-        for(i in 0 .. s.length - 2) {
-            when("${s[i]}${s[i+1]}") {
+        for (i in 0..s.length - 2) {
+            when ("${s[i]}${s[i + 1]}") {
                 "IV" -> sum -= 2
                 "IX" -> sum -= 2
                 "XL" -> sum -= 20
@@ -78,4 +109,9 @@ class RomanToInteger {
 
         return sum
     }
+}
+
+fun main() {
+    val obj = RomanToInteger()
+    println(obj.intToRoman(20))
 }
