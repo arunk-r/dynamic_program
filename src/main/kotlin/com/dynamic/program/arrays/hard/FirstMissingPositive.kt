@@ -37,6 +37,47 @@ Constraints:
  */
 class FirstMissingPositive {
     fun firstMissingPositive(nums: IntArray): Int {
+        val lst = nums.toMutableList()
+        val boundary = swapNegativesToEnd(lst)
+        placeElementsINCorrectPosition(lst, boundary)
+        for (i in 1 .. boundary) {
+            if (lst[i] != i) {
+                return i
+            }
+        }
+        return boundary+1
+    }
+    private fun placeElementsINCorrectPosition(nums: MutableList<Int>, boundary: Int){
+        for (i in 0 .. boundary) {
+            var v = nums[i]
+            while (v != i && v <= boundary) {
+                val t = nums[v]
+                nums[v] = v
+                nums[i] = t
+                v = t
+            }
+        }
+    }
+    private fun swapNegativesToEnd(nums: MutableList<Int>) : Int {
+        var lst = nums.size-1
+        for (i in nums.indices) {
+            while (nums[i] < 0 && i < lst) {
+                val t = nums[i]
+                nums[i] = nums[lst]
+                nums[lst] = t
+                lst--
+            }
+        }
+        if (nums[lst] >= 0 && lst+1 < nums.size && nums[lst+1] < 0) {
+            nums[lst+1] = 0
+            return lst+1
+        } else if(lst == nums.size - 1) {
+            nums.add(0)
+            return lst+1
+        }
+        return lst
+    }
+    fun firstMissingPositive4(nums: IntArray): Int {
         val size  = nums.size
         for (i in nums.indices) {
             var v = nums[i]
@@ -122,8 +163,9 @@ class FirstMissingPositive {
 }
 
 fun main() {
-    println(FirstMissingPositive().firstMissingPositive(intArrayOf(74,2,1,4,3,0)))
-    println(FirstMissingPositive().firstMissingPositive(intArrayOf(0,11,12,13,14,15,16)))
-    println(FirstMissingPositive().firstMissingPositive(intArrayOf(1,2,0)))
-    println(FirstMissingPositive().firstMissingPositive(intArrayOf(1)))
+    //println(FirstMissingPositive().firstMissingPositive(intArrayOf(74,2,1,4,3,0)))
+    //println(FirstMissingPositive().firstMissingPositive(intArrayOf(0,11,12,13,14,15,16)))
+    //println(FirstMissingPositive().firstMissingPositive(intArrayOf(1,2,0)))
+    //println(FirstMissingPositive().firstMissingPositive(intArrayOf(1)))
+    println(FirstMissingPositive().firstMissingPositive(intArrayOf(3,4,-1, 1)))
 }

@@ -43,7 +43,8 @@ class KMP {
 
 fun main() {
     //println(KMP().matchString("a", "b"))
-    //println(KMP().matchString("aa", "ab"))
-    //println(KMP().matchString("aa", "aab"))
+    println(KMP().matchString("aa", "ab"))
+    println(KMP().matchString("aa", "aab"))
     println(KMP().matchString("aab", "aab"))
+    println(KMP().matchString("abab", "ababab"))
 }

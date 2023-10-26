@@ -93,6 +93,7 @@ class AccountsMerge {
             if(!found) {
                 val e = Emails()
                 e.emails.addAll(account.subList(1, account.size))
+                e.emails.first()
                 data.add(e)
             }
         }
