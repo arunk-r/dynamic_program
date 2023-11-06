@@ -10,6 +10,7 @@ public class Main {
         Main main = new Main();
         int result = main.leftRightSumIndex(new int[] {4, 7, 3, 8, 6});
         System.out.print(result);
+        System.out.println(1534236469);
     }
 
     /* Solution */
