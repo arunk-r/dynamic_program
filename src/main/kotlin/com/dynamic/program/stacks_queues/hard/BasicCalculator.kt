@@ -45,6 +45,126 @@ Every number and running calculation will fit in a signed 32-bit integer.
  */
 class BasicCalculator {
     fun calculate(s: String): Int {
+
+        val stk = Stack<Any>()
+        val num = Stack<Char>()
+        for(i in s.length-1 downTo 0) {
+            if(s[i] == ' ') continue
+
+            if(s[i] in '0' .. '9') {
+                num.push(s[i])
+                continue
+            }
+
+            if(num.isNotEmpty()) {
+                stk.push(getInt(num))
+            }
+
+            if(s[i] == '(') {
+                val res = eval(stk)
+                stk.pop()
+                stk.push(res)
+            } else {
+                stk.push(s[i])
+            }
+        }
+
+        if(num.isNotEmpty()) {
+            stk.push(getInt(num))
+        }
+        return eval(stk)
+    }
+
+    private fun getInt(stk: Stack<Char>): Int {
+        var result = 0
+        while(stk.isNotEmpty()) {
+            result = result * 10 + (stk.pop() - '0')
+        }
+        return result
+    }
+
+    private fun eval(stk: Stack<Any>): Int {
+        println(stk)
+        if(stk.isEmpty() || stk.peek() !is Int) {
+            stk.push(0)
+        }
+        var result = (stk.pop() as Int)
+        while(stk.isNotEmpty() && stk.peek() != ')') {
+            val ch = stk.pop() as Char
+            if(ch == '+') {
+                result += (stk.pop() as Int)
+            } else {
+                result -= (stk.pop() as Int)
+            }
+        }
+        return result
+    }
+    /*fun evaluateExpr(stack: Stack<Any>): Int {
+
+        // If stack is empty or the expression starts with
+        // a symbol, then append 0 to the stack.
+        // i.e. [1, '-', 2, '-'] becomes [1, '-', 2, '-', 0]
+        if (stack.empty() || stack.peek() !is Int) {
+            stack.push(0)
+        }
+        var res = stack.pop() as Int
+
+        // Evaluate the expression till we get corresponding ')'
+        while (!stack.empty() && stack.peek() as Char != ')') {
+            val sign = stack.pop() as Char
+            if (sign == '+') {
+                res += stack.pop() as Int
+            } else {
+                res -= stack.pop() as Int
+            }
+        }
+        return res
+    }
+
+    fun calculate(s: String): Int {
+        var operand = 0
+        var n = 0
+        val stack = Stack<Any>()
+        for (i in s.length - 1 downTo 0) {
+            val ch = s[i]
+            if (Character.isDigit(ch)) {
+
+                // Forming the operand - in reverse order.
+                operand += Math.pow(10.0, n.toDouble()).toInt() * (ch.code - '0'.code)
+                n += 1
+            } else if (ch != ' ') {
+                if (n != 0) {
+
+                    // Save the operand on the stack
+                    // As we encounter some non-digit.
+                    stack.push(operand)
+                    n = 0
+                    operand = 0
+                }
+                if (ch == '(') {
+                    val res = evaluateExpr(stack)
+                    stack.pop()
+
+                    // Append the evaluated result to the stack.
+                    // This result could be of a sub-expression within the parenthesis.
+                    stack.push(res)
+                } else {
+                    // For other non-digits just push onto the stack.
+                    stack.push(ch)
+                }
+            }
+        }
+
+        //Push the last operand to stack, if any.
+        if (n != 0) {
+            stack.push(operand)
+        }
+
+        // Evaluate any left overs in the stack.
+        return evaluateExpr(stack)
+    }
+
+    fun calculate2(s: String): Int {
         val stack = Stack<Int>()
         var operand = 0
         var result = 0 // For the on-going result
@@ -177,11 +297,11 @@ class BasicCalculator {
         l * r
     } else {
         l / r
-    }
+    }*/
 }
 
 fun main() {
-    //println(BasicCalculator().calculate("1 + 1"))
+    println(BasicCalculator().calculate("1 + 1"))
     //println(BasicCalculator().calculate(" 2-1 + 2 "))
-    println(BasicCalculator().calculate("(1+(4+5+2)-3)+(6+8)"))
+    //println(BasicCalculator().calculate("(1+(4+5+2)-3)+(6+8)"))
 }

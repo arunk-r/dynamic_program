@@ -1,7 +1,7 @@
 package com.dynamic.program.data.structures.tree
 
 class BST {
-    data class Node(val v: Int, var parent: Node? = null, var left: Node? = null, var right: Node? = null)
+    data class Node(var v: Int, var parent: Node? = null, var left: Node? = null, var right: Node? = null)
 
     var root: Node? = null
 
@@ -32,6 +32,38 @@ class BST {
         return true
     }
 
+    fun delete(node: Node?, x: Int): Node? {
+        if(node == null) return node
+        if(node.v > x) {
+            node.left = delete(node.left, x)
+            return node
+        } else if(node.v < x) {
+            node.right = delete(node.right, x)
+            return node
+        }
+        if (node.left == null) {
+            return node.right
+        } else if(node.right == null) {
+            return node.left
+        } else {
+            var successorParent = node
+            var successor = node.right
+            while (successor?.left != null) {
+                successorParent = successor
+                successor = successor.left
+            }
+            // removal process for node delete
+            if (successorParent != root) {
+                successorParent?.left = successor?.right
+            } else {
+                successorParent?.right = successor?.right
+            }
+            // swap key of successor
+            node.v = successor?.v ?: 0
+            // successor is removed- bye bye
+            return node
+        }
+    }
     fun delete(node: Node?): Boolean {
         if (node?.right == null) {
             shiftNodes(node, node?.left)
@@ -69,7 +101,7 @@ class BST {
             while (n?.right != null) {
                 n = n.right
             }
-            n
+            n?.left
         }
     }
 

@@ -6,6 +6,11 @@ import java.time.temporal.ChronoUnit;
 public class Main {
 
     public static void main(String[] args) {
+        int n = 8;
+        for(int i = 4; i >= 0; i--) {
+            System.out.println(n >> i & 1);
+        }
+
         System.out.println(Instant.now().minus(10, ChronoUnit.DAYS).isBefore(Instant.now()));
         Main main = new Main();
         int result = main.leftRightSumIndex(new int[] {4, 7, 3, 8, 6});

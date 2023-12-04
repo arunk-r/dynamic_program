@@ -32,7 +32,7 @@ Constraints:
 haystack and needle consist of only lowercase English characters.
  */
 class FindTheIndexOfTheFirstOccurrenceInAString {
-    fun strStr(haystack: String, needle: String): Int {
+    fun strStr1(haystack: String, needle: String): Int {
         val m = haystack.length
         val n = needle.length
         if (haystack == needle) return 0
@@ -49,4 +49,48 @@ class FindTheIndexOfTheFirstOccurrenceInAString {
 
         return -1
     }
+
+    fun strStr(haystack: String, needle: String): Int {
+        if(needle.length > haystack.length) return -1
+        else if(needle.length == haystack.length) {
+            if(needle == haystack) return 0
+            else return -1
+        }
+
+        var l = 0
+        var reset = true
+        var idx = 0
+        var r = 0
+        val set = HashSet<Int>()
+        while(r < haystack.length && idx < needle.length) {
+            if(reset && haystack[r] == needle[idx]) {
+                l = r
+                idx++
+                reset = false
+            } else if(haystack[r] == needle[idx]) {
+                idx++
+            } else if(!reset){
+                var tmpR = r-1
+                while(tmpR in 0 until l && haystack[tmpR] != needle[0]) {
+                    tmpR--
+                }
+                if(!set.contains(tmpR) && tmpR >= 0 && haystack[tmpR] == needle[0]) {
+                    r = tmpR
+                    set.add(tmpR)
+                    reset = true
+                    idx = 0
+                    continue
+                }
+                reset = true
+                idx = 0
+            }
+            r++
+        }
+        if(idx == needle.length) return l
+        return -1
+    }
+}
+
+fun main() {
+    println(FindTheIndexOfTheFirstOccurrenceInAString().strStr("mississippi", "issip"))
 }

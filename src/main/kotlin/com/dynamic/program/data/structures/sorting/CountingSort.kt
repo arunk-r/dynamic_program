@@ -1,7 +1,25 @@
 package com.dynamic.program.data.structures.sorting
 
 class CountingSort {
-    fun countingSort(nums: IntArray, k: Int): IntArray {
+    fun countingSortV2(nums: IntArray, k: Int): IntArray {
+        val output = IntArray(nums.size)
+        val pass = IntArray(k)
+        for(n in nums) {
+            pass[n]++
+        }
+        var sum = k
+        for(i in k - 1 downTo 0) {
+            pass[i] = sum - pass[i]
+            sum = pass[i]
+        }
+        for (i in nums.indices) {
+            val key = nums[i]
+            output[pass[key]] = key
+            pass[key]++
+        }
+        return output
+    }
+    fun countingSortV1(nums: IntArray, k: Int): IntArray {
         val counts = IntArray(k)
         val output = IntArray(nums.size)
 
@@ -26,8 +44,10 @@ class CountingSort {
 }
 fun main() {
     var arr = intArrayOf(7, 3, 5, 8, 2, 6, 9,8,9, 1)
-    println(CountingSort().countingSort(arr, 10).toList())
+    println(CountingSort().countingSortV1(arr, 10).toList())
+    println(CountingSort().countingSortV2(arr, 10).toList())
 
     arr = intArrayOf(9,9,9,9,9,9,9,9,9,9)
-    println(CountingSort().countingSort(arr, 10).toList())
+    println(CountingSort().countingSortV1(arr, 10).toList())
+    println(CountingSort().countingSortV2(arr, 10).toList())
 }
