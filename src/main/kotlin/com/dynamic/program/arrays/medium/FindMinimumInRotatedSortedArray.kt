@@ -48,6 +48,25 @@ nums is sorted and rotated between 1 and n times.
  */
 class FindMinimumInRotatedSortedArray {
     fun findMin(nums: IntArray): Int {
+        var l = 0
+        var r = nums.size - 1
+        while(l < r) {
+            val mid = l + (r - l) / 2
+            if(nums[l] < nums[mid] && nums[l] > nums[r]) {
+                l = mid + 1
+            } else {
+                if(nums[mid] > nums[r] && nums[l] > nums[r]) {
+                    l = mid + 1
+                } else {
+                    r = mid
+                }
+            }
+        }
+        //println("$l,$r")
+        return nums[l]
+    }
+
+    fun findMin1(nums: IntArray): Int {
         var t = Int.MAX_VALUE
         var l = 0
         var r = nums.size - 1
@@ -70,4 +89,9 @@ class FindMinimumInRotatedSortedArray {
 
         return t
     }
+}
+
+fun main() {
+    println("\t\t2".split("\t").toList())
+    println(FindMinimumInRotatedSortedArray().findMin(intArrayOf(3,1,2)))
 }

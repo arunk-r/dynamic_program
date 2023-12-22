@@ -40,7 +40,66 @@ words[i] consists of lowercase English letters.
 All the strings of words are unique.
  */
 class WordSearchII {
-    data class Trie(val c: Char, var w: String? = null, val map: HashMap<Char, Trie> = hashMapOf())
+    data class Trie(var word: String? = null, val children: HashMap<Char, Trie> = hashMapOf())
+    val root = Trie()
+    fun findWords(board: Array<CharArray>, words: Array<String>): List<String> {
+        for(word in words) {
+            addToTrie(word, root)
+        }
+        println(root)
+        val result = mutableListOf<String>()
+        for(r in board.indices) {
+            for(c in board[r].indices) {
+                if(root.children.containsKey(board[r][c])) {
+                    val word = dfs(r, c, board, root, hashSetOf())
+                    if(word != "") {
+                        result.add(word)
+                    }
+                }
+            }
+        }
+        return result
+    }
+
+    private fun dfs(r: Int, c: Int, board: Array<CharArray>, root: Trie?, seen: HashSet<Pair<Int, Int>>): String {
+        if(root?.word != null) {
+            val w = root?.word ?: ""
+            root?.word = null
+            return w
+        }
+        else if(root == null) return ""
+        else if(seen.contains(Pair(r, c))) return ""
+        else if(r < 0 || r >= board.size || c < 0 || c >= board[r].size) return ""
+        seen.add(Pair(r, c))
+        val next = root.children[board[r][c]]
+        if(next != null) {
+            var word = dfs(r+1, c, board, next, seen)
+            if(word == "") {
+                word = dfs(r-1, c, board, next, seen)
+            }
+            if(word == "") {
+                word = dfs(r, c+1, board, next, seen)
+            }
+            if(word != "") return word
+            return dfs(r, c-1, board, next, seen)
+        }
+        seen.remove(Pair(r, c))
+        return ""
+    }
+
+    private fun addToTrie(s: String, root: Trie) {
+        var node = root
+        for(c in s) {
+            var next = node.children[c]
+            if(next == null) {
+                next = Trie()
+                node.children[c] = next
+            }
+            node = next
+        }
+        node.word = s
+    }
+    /*data class Trie(val c: Char, var w: String? = null, val map: HashMap<Char, Trie> = hashMapOf())
     val root = Trie(' ')
     val result = mutableListOf<String>()
     val dir = listOf(Pair(0, 1), Pair(1, 0), Pair(0, -1), Pair(-1, 0))
@@ -98,6 +157,8 @@ class WordSearchII {
 
     fun valid(r: Int, c: Int, board: Array<CharArray>, seen: Array<BooleanArray>): Boolean =
         (r in board.indices && c in board[r].indices && !seen[r][c])
+
+     */
 }
 
 fun main() {
