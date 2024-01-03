@@ -30,7 +30,7 @@ package com.dynamic.program.graphs.bfs
  *
  */
 class WordLadder {
-    fun ladderLength(beginWord: String, endWord: String, wordList: List<String>): Int {
+    /*fun ladderLength(beginWord: String, endWord: String, wordList: List<String>): Int {
         val wordSet = hashSetOf<String>()
         wordSet.addAll(wordList)
         if (!wordSet.contains(endWord)) return 0
@@ -101,6 +101,47 @@ class WordLadder {
         if (set.contains(s) && !seen.contains(s)) {
             result.add(s)
         }
+    }*/
+    fun ladderLength(beginWord: String, endWord: String, wordList: List<String>): Int {
+        /// use start pattern
+        val map = HashMap<String, MutableList<String>>()
+        val wordMap = HashMap<String, MutableList<String>>()
+        val set = HashSet<String>()
+        set.addAll(wordList)
+        if(!set.contains(endWord)) return 0
+        for(str in set) {
+            wordMap[str] = getPattern(str)
+            for(pattern in wordMap[str]!!) {
+                map.putIfAbsent(pattern, mutableListOf())
+                map[pattern]?.add(str)
+            }
+        }
+        wordMap[beginWord] = getPattern(beginWord)
+        val q = ArrayDeque<Pair<String, Int>>()
+        q.addLast(Pair(beginWord, 1))
+        val seen = HashSet<String>()
+        seen.add(beginWord)
+        while(q.isNotEmpty()) {
+            val (str, level) = q.removeLast()
+            wordMap[str]?.forEach { pattern ->
+                map[pattern]?.forEach{ word ->
+                    if(word == endWord) return level+1
+                    if(!seen.contains(word)) {
+                        q.addLast(Pair(word, level+1))
+                        seen.add(word)
+                    }
+                }
+            }
+        }
+        return 0
+    }
+
+    private fun getPattern(str: String): MutableList<String>{
+        val result = mutableListOf<String>()
+        for(i in str.indices) {
+            result.add(str.substring(0,i) + '*' + str.substring(i+1))
+        }
+        return result
     }
 }
 

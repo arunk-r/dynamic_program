@@ -27,6 +27,24 @@ package com.dynamic.program.dp
  */
 class MaximalSquare {
     fun maximalSquare(matrix: Array<CharArray>): Int {
+        val n = matrix.size
+        val m = matrix[0].size
+        val dp = Array(n+1){IntArray(m+1)}
+        var max = 0
+        for(r in matrix.indices) {
+            for(c in matrix[r].indices) {
+                if(matrix[r][c] == '1') {
+                    val left = dp[r+1][c]
+                    val top  = dp[r][c+1]
+                    val dia  = dp[r][c]
+                    dp[r+1][c+1] = minOf(left, minOf(top, dia))+1
+                    max = maxOf(max, dp[r+1][c+1])
+                }
+            }
+        }
+        return max * max
+    }
+    fun maximalSquare3(matrix: Array<CharArray>): Int {
         val m = matrix.size
         val n = matrix[0].size
         val dp = Array(m){IntArray(n){-1}}
@@ -136,6 +154,7 @@ class MaximalSquare {
 }
 
 fun main() {
+/*
 
     println(
         MaximalSquare().maximalSquare(
@@ -170,6 +189,7 @@ fun main() {
             )
         )
     )
+*/
 
     println(
         MaximalSquare().maximalSquare(
