@@ -1,6 +1,7 @@
 package com.dynamic.program.heaps
 
 import java.util.*
+import kotlin.collections.HashMap
 
 /**
  * Find K Pairs with Smallest Sums
@@ -53,8 +54,26 @@ class FindKPairsWithSmallestSums {
         }
         return res
     }
+
+    fun numberOfWays(arr: IntArray, k: Int): Int {
+        // Write your code here
+        val map = HashMap<Int, Int>()
+        var result = 0
+        for(n in arr) {
+            val diff = map[k - n]
+            if(diff != null) {
+                result += diff
+            }
+            map[n] = map.getOrDefault(n, 0) + 1
+        }
+        return result
+    }
 }
 
 fun main() {
-    println(FindKPairsWithSmallestSums().kSmallestPairs(intArrayOf(1,7,11), intArrayOf(2,4,6), 3))
+    //println(FindKPairsWithSmallestSums().kSmallestPairs(intArrayOf(1,7,11), intArrayOf(2,4,6), 3))
+    println(FindKPairsWithSmallestSums().numberOfWays(intArrayOf(1, 2, 3, 4, 3), 6))
+    println(FindKPairsWithSmallestSums().numberOfWays(intArrayOf(1, 5, 3, 3, 3), 6))
+    println(FindKPairsWithSmallestSums().numberOfWays(intArrayOf(1, 2, 2, 2, 3, 4, 4), 6))
+
 }
