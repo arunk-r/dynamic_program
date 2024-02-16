@@ -1,5 +1,9 @@
 package com.dynamic.program.strings_arrays.hard
 
+import kotlin.math.abs
+import kotlin.math.max
+import kotlin.math.min
+
 /**
  * 273. Integer to English Words
  * Hard
@@ -33,10 +37,28 @@ package com.dynamic.program.strings_arrays.hard
  * 0 <= num <= 231 - 1
  */
 class IntegerToEnglishWords {
-    val BILLION = 1000000000
-    val MILLION = 1000000
-    val THOUSAND = 1000
-    val HUNDARD = 100
+    private val BILLION = 1000000000
+    private val MILLION = 1000000
+    private val THOUSAND = 1000
+    private val HUNDRED = 100
+    // Arrays to store words for ones and tens places
+    private val ones = arrayOf("", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine",
+        "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen")
+
+    private val tens = arrayOf("", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety")
+
+    fun numberToWords(num: Int, result: String = ""): String {
+        return when {
+            num == 0 && result == "" -> "Zero"
+            num == 0 -> result.trim()
+            num >= BILLION -> numberToWords(num % BILLION, numberToWords(num / BILLION) + " Billion ")
+            num >= MILLION -> numberToWords(num % MILLION, result + numberToWords(num / MILLION) + " Million ")
+            num >= THOUSAND -> numberToWords(num % THOUSAND, result + numberToWords(num / THOUSAND) + " Thousand ")
+            num >= HUNDRED -> numberToWords(num % HUNDRED, result + numberToWords(num / HUNDRED) + " Hundred ")
+            num >= 20 -> numberToWords(num % 10, result + tens[num / 10] + " ")
+            else -> result + ones[num]
+        }
+    }
 
     fun one(num: Int) : String {
         return when (num) {
@@ -107,7 +129,7 @@ class IntegerToEnglishWords {
         }
         return res
     }
-    fun numberToWords(num: Int): String {
+    fun numberToWords1(num: Int): String {
         if (num == 0)
         return "zero"
         val billion = num / BILLION
@@ -128,6 +150,31 @@ class IntegerToEnglishWords {
         if (rest != 0) {
             result += three(rest)
         }
+        return result
+    }
+
+    fun countOfPairs(n: Int, x: Int, y: Int): LongArray {
+        var x = x
+        var y = y
+        if (x > y) {
+            val t = x
+            x = y
+            y = t
+        }
+        val result = LongArray(n)
+        for (i in 1..n) {
+            result[0] += 2L // go left and right
+            result[min((i - 1), (abs((i - y)) + x))]-- // reach 1 then stop
+            result[min((n - i), (abs((i - x)) + 1 + n - y))]-- // reach n then stop
+            result[min(abs((i - x)), (abs((y - i)) + 1))
+                ]++ // reach x then split
+            result[min((abs((i - x)) + 1), abs((y - i)))
+                ]++ // reach y then split
+            val r = (max((x - i), 0) + max((i - y), 0))
+            result[r + (y - x + 0) / 2]-- // i -> x -> y <- x
+            result[r + (y - x + 1) / 2]-- // i -> y -> x <- y
+        }
+        for (i in 1 until n) result[i] += result[i - 1]
         return result
     }
 }

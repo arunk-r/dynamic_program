@@ -53,12 +53,22 @@ class LFUCache(val capacity: Int) {
 }
 
 fun main() {
-    val l = LFUCache(2)
+
+    val list = mutableListOf<Pair<Int, Int>>()
+    list.add(Pair(3,1))
+    list.add(Pair(1,0))
+    list.add(Pair(1,1))
+    list.add(Pair(2,1))
+    list.add(Pair(2,0))
+    list.add(Pair(3,0))
+    list.sortBy { it.second }
+    println(list)
+    /*val l = LFUCache(2)
     println(l.get(2))
     l.put(2, 6)
     println(l.get(1))
     l.put(1, 5)
     l.put(1, 2)
     println(l.get(1))
-    println(l.get(2))
+    println(l.get(2))*/
 }
