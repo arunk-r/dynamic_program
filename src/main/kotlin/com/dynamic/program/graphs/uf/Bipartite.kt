@@ -18,14 +18,14 @@ class Bipartite {
     }
 
 
-    fun find(uf: IntArray,x: Int): Int {
+    private fun find(uf: IntArray,x: Int): Int {
         if (uf[x] == x) return x
         val root = find(uf, uf[x])
         uf[x] = root // path compression
         return root
     }
 
-    fun union(uf: IntArray, rank: IntArray, x: Int, y: Int) {
+    private fun union(uf: IntArray, rank: IntArray, x: Int, y: Int) {
         val rootx = find(uf, x)
         val rooty = find(uf, y)
         if (rootx == rooty) return
@@ -38,7 +38,7 @@ class Bipartite {
         }
     }
 
-    fun isConnected(uf: IntArray, p: Int, q: Int): Boolean {
+    private fun isConnected(uf: IntArray, p: Int, q: Int): Boolean {
         return find(uf, p) == find(uf, q)
     }
 
